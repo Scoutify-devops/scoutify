@@ -1,199 +1,36 @@
-# ⚽ Scoutify
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-**Scoutify** is a football talent discovery platform designed to help scouts, coaches, teams, and football enthusiasts discover emerging soccer talent, particularly players from communities and villages that may not have easy access to traditional scouting networks.
+## Getting Started
 
-Players can create profiles, showcase their football abilities through video, build an audience, and connect with people interested in discovering new talent.
+First, run the development server:
 
-## 🎯 Project Objective
-
-Many talented football players come from communities where professional scouting opportunities are limited. Scoutify aims to provide these players with a digital platform where they can showcase their abilities and become more visible to scouts and football organisations.
-
-The goal is to make talent discovery more accessible by allowing players to create an online football profile and share their performances through video.
-
-## 🚀 Planned Features
-
-### 👤 User & Player Profiles
-
-* User registration and login
-* Player profiles
-* Profile photo
-* Player information
-* Position and playing details
-* Player achievements
-* Player statistics
-
-### 🎥 Football Videos
-
-* Add football performance videos
-* YouTube video integration
-* Video feed
-* Video views
-* Like videos
-* Comment on videos
-* Share videos
-
-### 🤝 Social Features
-
-* Follow players
-* Followers and following
-* Likes
-* Comments
-* Sharing
-* Basic notifications
-
-### 🔎 Talent Discovery
-
-* Discover players
-* Search for players
-* Filter players by position
-* Filter by location
-* Browse football videos
-* Discover emerging talent
-
-### ⚽ Football Events
-
-Users will be able to post and discover upcoming football events such as:
-
-* Tournaments
-* Trials
-* Talent identification events
-* Academy events
-* Local football matches
-
-### 🛡️ Safety & Moderation
-
-* Block users
-* Report users
-* Report content
-* Basic content moderation
-
-
-## 🏗️ Technology Stack
-
-The project is being developed using:
-
-* **Next.js** — Frontend and application framework
-* **React** — User interface
-* **JavaScript / TypeScript** — Application logic
-* **YouTube** — Video hosting and playback
-* **Database** — User, profile, social and event data
-* **Git & GitHub** — Version control and collaboration
-
-Additional technologies may be introduced as the project develops.
-
-## 📱 Core User Flow
-
-A typical player journey will look like:
-
-```text
-Create Account
-      ↓
-Create Player Profile
-      ↓
-Add Football Information
-      ↓
-Add YouTube Highlights
-      ↓
-Publish Profile
-      ↓
-Appear in Discovery Feed
-      ↓
-Scouts Discover Player
-      ↓
-Follow / Contact / Evaluate Player
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-## 🗂️ Planned Application Structure
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-```text
-Scoutify
-│
-├── Home
-│   └── Football video feed
-│
-├── Discover
-│   ├── Players
-│   ├── Videos
-│   └── Events
-│
-├── Create
-│   ├── Player Profile
-│   └── Add Video
-│
-├── Events
-│   └── Upcoming football events
-│
-├── Notifications
-│
-└── Profile
-    ├── Player Information
-    ├── Videos
-    ├── Achievements
-    └── Statistics
-```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## 🔐 Privacy & Security
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-Scoutify will aim to protect users by implementing:
+## Learn More
 
-* Secure authentication
-* Protected user data
-* Appropriate access controls
-* Reporting and blocking functionality
-* Secure handling of application credentials
-* Environment variables for sensitive configuration
+To learn more about Next.js, take a look at the following resources:
 
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## 🌱 Development Approach
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-Scoutify will be developed incrementally.
+## Deploy on Vercel
 
-### Phase 1 — MVP
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-* Next.js project setup
-* Authentication
-* User profiles
-* Player profiles
-* YouTube video integration
-* Basic feed
-* Likes
-* Comments
-* Follow functionality
-
-### Phase 2 — Discovery
-
-* Player search
-* Player filtering
-* Location-based discovery
-* Improved video feed
-* View counts
-
-### Phase 3 — Football Events
-
-* Create events
-* Browse events
-* Event details
-* Event discovery
-
-### Phase 4 — Safety & Notifications
-
-* Notifications
-* Blocking
-* Reporting
-* Content moderation
-
-### Phase 5 — Production
-
-* Testing
-* Performance optimisation
-* Security improvements
-* Deployment
-* Monitoring
-
-## 🎯 Vision
-
-Scoutify's long-term goal is to become a platform where football talent can be discovered regardless of where a player comes from.
-
-A talented player from a small village should have the opportunity to showcase their abilities to the same audience as a player from a major football academy.
-
-**Scoutify — Discover the talent. ⚽**
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
