@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const supabase = await createClient();
 
-    // Fetch all records from your new profiles table
+    
     const { data, error } = await supabase
       .from('profiles')
       .select('*');
