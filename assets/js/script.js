@@ -3,6 +3,7 @@ const videos = [
     id: 1,
     title: "Elite football skills session: dribbling and quick feet",
     channel: "GoalZone",
+    channelSlug: "goalzone",
     views: "2.1M",
     age: "3 days ago",
     duration: "12:48",
@@ -21,6 +22,7 @@ const videos = [
     id: 2,
     title: "Top 10 tactical formations for rising teams",
     channel: "Tactical Edge",
+    channelSlug: "tactical-edge",
     views: "890K",
     age: "5 days ago",
     duration: "18:22",
@@ -39,6 +41,7 @@ const videos = [
     id: 3,
     title: "Street football showdown: final minute drama",
     channel: "Street Football",
+    channelSlug: "street-football",
     views: "1.4M",
     age: "1 week ago",
     duration: "9:15",
@@ -57,6 +60,7 @@ const videos = [
     id: 4,
     title: "Build a high-performance training plan for players",
     channel: "Elite Academy",
+    channelSlug: "elite-academy",
     views: "645K",
     age: "2 days ago",
     duration: "15:10",
@@ -75,6 +79,7 @@ const videos = [
     id: 5,
     title: "Inside the life of a football scout",
     channel: "Premier Pulse",
+    channelSlug: "premier-pulse",
     views: "1.8M",
     age: "6 days ago",
     duration: "11:34",
@@ -93,6 +98,7 @@ const videos = [
     id: 6,
     title: "Gaming night with football fans and live reactions",
     channel: "FanZone",
+    channelSlug: "fanzone",
     views: "523K",
     age: "4 hours ago",
     duration: "7:53",
@@ -111,6 +117,7 @@ const videos = [
     id: 7,
     title: "Best football moments from this weekend",
     channel: "Match Feed",
+    channelSlug: "match-feed",
     views: "3.7M",
     age: "1 day ago",
     duration: "14:57",
@@ -129,6 +136,7 @@ const videos = [
     id: 8,
     title: "Music mix for intense training sessions",
     channel: "Pulse Studio",
+    channelSlug: "pulse-studio",
     views: "410K",
     age: "8 hours ago",
     duration: "20:03",
@@ -145,6 +153,53 @@ const videos = [
   }
 ];
 
+const profiles = [
+  {
+    slug: "goalzone",
+    name: "GoalZone",
+    role: "Football coach and talent creator",
+    location: "Johannesburg, South Africa",
+    bio: "GoalZone helps young players sharpen their technical skills, build confidence, and understand the game beyond the basics.",
+    stats: { videos: 128, subscribers: "45K", followers: "12K", rating: "4.9" },
+    tags: ["Dribbling", "Training", "Youth Development", "Football IQ"],
+    featured: "Elite football skills session: dribbling and quick feet",
+    banner: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=80"
+  },
+  {
+    slug: "tactical-edge",
+    name: "Tactical Edge",
+    role: "Analysis and coaching educator",
+    location: "Cape Town, South Africa",
+    bio: "Tactical Edge brings tactical breakdowns and weekly coaching ideas for players, coaches, and football analysts.",
+    stats: { videos: 76, subscribers: "21K", followers: "8.7K", rating: "4.8" },
+    tags: ["Tactics", "Formations", "Strategy", "Team Play"],
+    featured: "Top 10 tactical formations for rising teams",
+    banner: "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1200&q=80"
+  },
+  {
+    slug: "street-football",
+    name: "Street Football",
+    role: "Street football storyteller",
+    location: "Durban, South Africa",
+    bio: "Street Football captures the raw passion, creativity, and energy of community matches and local football culture.",
+    stats: { videos: 212, subscribers: "89K", followers: "63K", rating: "4.9" },
+    tags: ["Local Matches", "Pressure Moments", "Community", "Skill"],
+    featured: "Street football showdown: final minute drama",
+    banner: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80"
+  },
+  {
+    slug: "elite-academy",
+    name: "Elite Academy",
+    role: "Performance coach",
+    location: "Pretoria, South Africa",
+    bio: "Elite Academy focuses on high performance, sports science, and long-term development for ambitious players.",
+    stats: { videos: 94, subscribers: "31K", followers: "16K", rating: "4.7" },
+    tags: ["Conditioning", "Academy", "Speed", "Recovery"],
+    featured: "Build a high-performance training plan for players",
+    banner: "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=1200&q=80"
+  }
+];
+
 const categories = ["All", "Football", "Learning", "News", "Gaming", "Music"];
 const chipRow = document.getElementById("chipRow");
 const videoGrid = document.getElementById("videoGrid");
@@ -153,8 +208,19 @@ const themeToggle = document.getElementById("themeToggle");
 const modal = document.getElementById("videoModal");
 const modalContent = document.getElementById("modalContent");
 const closeModalButton = document.getElementById("closeModal");
+const profilePage = document.getElementById("profilePage");
+
+function getProfileBySlug(slug) {
+  return profiles.find((profile) => profile.slug === slug) || profiles[0];
+}
+
+function viewProfile(slug) {
+  window.location.href = `../pages/profile.html?profile=${encodeURIComponent(slug)}`;
+}
 
 function renderChips() {
+  if (!chipRow) return;
+
   chipRow.innerHTML = categories
     .map(
       (category, index) =>
@@ -164,6 +230,8 @@ function renderChips() {
 }
 
 function renderVideos() {
+  if (!videoGrid || !searchInput) return;
+
   const activeCategory = document.querySelector(".chip.active")?.dataset.category || "All";
   const query = searchInput.value.trim().toLowerCase();
 
@@ -198,7 +266,10 @@ function renderVideos() {
               <p class="channel-name">${video.channel}</p>
               <p class="meta">${video.views} views • ${video.age}</p>
             </div>
-            <button class="more-button" aria-label="More options">⋮</button>
+            <div class="video-actions">
+              <button class="view-profile-button" data-profile="${video.channelSlug}" aria-label="View ${video.channel} profile">View profile</button>
+              <button class="more-button" aria-label="More options">⋮</button>
+            </div>
           </div>
         </article>
       `
@@ -207,10 +278,18 @@ function renderVideos() {
 
   document.querySelectorAll(".video-card").forEach((card) => {
     card.addEventListener("click", (event) => {
-      const target = event.target.closest(".more-button");
-      if (target) {
+      const profileButton = event.target.closest(".view-profile-button");
+      if (profileButton) {
+        event.stopPropagation();
+        viewProfile(profileButton.dataset.profile);
         return;
       }
+
+      const moreButton = event.target.closest(".more-button");
+      if (moreButton) {
+        return;
+      }
+
       const selectedId = Number(card.dataset.videoId);
       openModal(selectedId);
     });
@@ -226,6 +305,8 @@ function renderVideos() {
 }
 
 function openModal(videoId) {
+  if (!modal || !modalContent) return;
+
   const selectedVideo = videos.find((video) => video.id === videoId);
   if (!selectedVideo) return;
 
@@ -282,39 +363,113 @@ function openModal(videoId) {
 }
 
 function closeModal() {
+  if (!modal) return;
   modal.classList.add("hidden");
   modal.setAttribute("aria-hidden", "true");
 }
 
-chipRow.addEventListener("click", (event) => {
-  const chip = event.target.closest(".chip");
-  if (!chip) return;
+function renderProfilePage() {
+  if (!profilePage) return;
 
-  document.querySelectorAll(".chip").forEach((button) => button.classList.remove("active"));
-  chip.classList.add("active");
-  renderVideos();
-});
+  const params = new URLSearchParams(window.location.search);
+  const activeProfile = getProfileBySlug(params.get("profile") || "goalzone");
 
-searchInput.addEventListener("input", renderVideos);
-document.getElementById("searchBtn").addEventListener("click", renderVideos);
+  profilePage.innerHTML = `
+    <section class="profile-hero">
+      <div class="profile-cover" style="background-image: url('${activeProfile.banner}')"></div>
+      <div class="profile-main">
+        <div class="profile-avatar">${activeProfile.name.slice(0, 1)}</div>
+        <div class="profile-header-details">
+          <h1>${activeProfile.name}</h1>
+          <p>${activeProfile.role}</p>
+          <div class="profile-meta">
+            <span>📍 ${activeProfile.location}</span>
+            <span>⭐ ${activeProfile.stats.rating} rating</span>
+          </div>
+        </div>
+        <div class="profile-actions">
+          <button class="primary-button">Follow</button>
+          <a class="soft-button" href="index.html">Back to home</a>
+        </div>
+      </div>
+    </section>
 
-themeToggle.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-  themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
-});
+    <section class="profile-content-grid">
+      <div class="profile-panel">
+        <h2>About</h2>
+        <p>${activeProfile.bio}</p>
 
-closeModalButton.addEventListener("click", closeModal);
-modal.addEventListener("click", (event) => {
-  if (event.target.matches("[data-close='true']")) {
-    closeModal();
-  }
-});
+        <div class="tag-list">
+          ${activeProfile.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+        </div>
+      </div>
+
+      <div class="profile-panel stats-panel">
+        <h2>Stats</h2>
+        <div class="stat-grid">
+          <div><strong>${activeProfile.stats.videos}</strong><span>Videos</span></div>
+          <div><strong>${activeProfile.stats.subscribers}</strong><span>Subscribers</span></div>
+          <div><strong>${activeProfile.stats.followers}</strong><span>Followers</span></div>
+          <div><strong>${activeProfile.stats.rating}</strong><span>Rating</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="featured-panel">
+      <h2>Featured video</h2>
+      <div class="featured-card">
+        <div class="featured-image" style="background-image: url('${videos.find((video) => video.channel === activeProfile.name)?.image || videos[0].image}')"></div>
+        <div class="featured-copy">
+          <h3>${activeProfile.featured}</h3>
+          <p>${activeProfile.name} • football training & analysis</p>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+if (chipRow) {
+  chipRow.addEventListener("click", (event) => {
+    const chip = event.target.closest(".chip");
+    if (!chip) return;
+
+    document.querySelectorAll(".chip").forEach((button) => button.classList.remove("active"));
+    chip.classList.add("active");
+    renderVideos();
+  });
+}
+
+if (searchInput) {
+  searchInput.addEventListener("input", renderVideos);
+}
+
+const searchBtn = document.getElementById("searchBtn");
+if (searchBtn) {
+  searchBtn.addEventListener("click", renderVideos);
+}
+
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+    themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+  });
+}
+
+if (closeModalButton && modal) {
+  closeModalButton.addEventListener("click", closeModal);
+  modal.addEventListener("click", (event) => {
+    if (event.target.matches("[data-close='true']")) {
+      closeModal();
+    }
+  });
+}
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && !modal.classList.contains("hidden")) {
+  if (event.key === "Escape" && modal && !modal.classList.contains("hidden")) {
     closeModal();
   }
 });
 
 renderChips();
 renderVideos();
+renderProfilePage();
