@@ -215,7 +215,9 @@ function getProfileBySlug(slug) {
 }
 
 function viewProfile(slug) {
-  window.location.href = `../pages/profile.html?profile=${encodeURIComponent(slug)}`;
+  const profilePagePath = window.location.pathname.includes("/pages/") ? "./profile.html" : "./pages/profile.html";
+  const target = new URL(`${profilePagePath}?profile=${encodeURIComponent(slug)}`, window.location.href).href;
+  window.location.href = target;
 }
 
 function renderChips() {
@@ -389,7 +391,7 @@ function renderProfilePage() {
         </div>
         <div class="profile-actions">
           <button class="primary-button">Follow</button>
-          <a class="soft-button" href="index.html">Back to home</a>
+          <a class="soft-button" href="../index.html">Back to home</a>
         </div>
       </div>
     </section>
