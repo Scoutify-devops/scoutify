@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scoutify Videos</title>
+    <meta
+      name="description"
+      content="A YouTube-inspired video platform for football talent discovery and entertainment."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-group">
+          <button class="icon-button menu-button" aria-label="Open menu">☰</button>
+          <div class="brand" aria-label="Scoutify logo">
+            <span class="brand-mark">▶</span>
+            <span class="brand-text">Scoutify</span>
+          </div>
+        </div>
+
+        <div class="search-area">
+          <label class="search-box" aria-label="Search videos">
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Search videos, creators, topics"
+            />
+          </label>
+          <button id="searchBtn" class="search-button" aria-label="Search">Search</button>
+          <button class="icon-button mic-button" aria-label="Voice search">🎙️</button>
+        </div>
+
+        <div class="top-actions">
+          <button class="soft-button">Create</button>
+          <button class="primary-button">Sign in</button>
+          <button id="themeToggle" class="icon-button theme-button" aria-label="Toggle theme">🌙</button>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="sidebar">
+          <nav class="nav-block">
+            <a class="nav-item active" href="#">
+              <span>🏠</span>
+              <span>Home</span>
+            </a>
+            <a class="nav-item" href="#">
+              <span>🎬</span>
+              <span>Shorts</span>
+            </a>
+            <a class="nav-item" href="#">
+              <span>📺</span>
+              <span>Subscriptions</span>
+            </a>
+            <a class="nav-item" href="#">
+              <span>📚</span>
+              <span>Library</span>
+            </a>
+          </nav>
+
+          <div class="nav-block">
+            <p class="nav-title">You</p>
+            <a class="nav-item" href="#">
+              <span>🕘</span>
+              <span>History</span>
+            </a>
+            <a class="nav-item" href="#">
+              <span>🎥</span>
+              <span>Your videos</span>
+            </a>
+            <a class="nav-item" href="#">
+              <span>⏱️</span>
+              <span>Watch later</span>
+            </a>
+            <a class="nav-item" href="#">
+              <span>👍</span>
+              <span>Liked videos</span>
+            </a>
+          </div>
+
+          <div class="nav-block">
+            <p class="nav-title">Subscriptions</p>
+            <div class="subscription-list">
+              <div class="subscription-item"><span class="dot green"></span>GoalZone</div>
+              <div class="subscription-item"><span class="dot blue"></span>Elite Academy</div>
+              <div class="subscription-item"><span class="dot orange"></span>Street Football</div>
+              <div class="subscription-item"><span class="dot pink"></span>Premier Pulse</div>
+            </div>
+          </div>
+        </aside>
+
+        <main class="main-content">
+          <section class="hero-card">
+            <div class="hero-copy">
+              <p class="eyebrow">Trending now</p>
+              <h1>Discover football talent, stories, and highlights.</h1>
+              <p>
+                Follow standout players, watch match breakdowns, and explore the next wave of
+                football excellence.
+              </p>
+              <div class="hero-actions">
+                <button class="primary-button">Explore talent</button>
+                <button class="soft-button light">View playlists</button>
+              </div>
+            </div>
+            <div class="hero-visual">
+              <div class="hero-badge">Live</div>
+              <div class="mini-player">
+                <div class="mini-player-header">
+                  <span class="live-dot"></span>
+                  <span>Scoutify Live</span>
+                </div>
+                <div class="mini-player-body">
+                  <div class="scoreboard">
+                    <div>
+                      <strong>Riverside</strong>
+                      <span>2</span>
+                    </div>
+                    <div>
+                      <strong>City FC</strong>
+                      <span>1</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="filter-section">
+            <div id="chipRow" class="chip-row" aria-label="Video categories"></div>
+          </section>
+
+          <section class="videos-header">
+            <h2>Recommended</h2>
+            <button class="soft-button sort-button">Sort: Most relevant</button>
+          </section>
+
+          <section id="videoGrid" class="video-grid" aria-live="polite"></section>
+        </main>
+      </div>
+    </div>
+
+    <div id="videoModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-backdrop" data-close="true"></div>
+      <div class="modal-panel">
+        <button id="closeModal" class="close-button" aria-label="Close video">✕</button>
+        <div id="modalContent"></div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
