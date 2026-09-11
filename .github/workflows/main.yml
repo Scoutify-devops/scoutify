@@ -1,0 +1,32 @@
+name: Scoutify Website
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - features
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  run-site:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Start static web server
+        run: |
+          nohup python -m http.server 8000 --bind 0.0.0.0 --directory . >/tmp/scoutify-http.log 2>&1 &
+          sleep 3
+
+      - name: Verify site responds
+        run: |
+          curl -I http://localhost:8000
