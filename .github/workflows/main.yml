@@ -1,32 +1,45 @@
-name: Scoutify Website
+name: Deploy Scoutify to GitHub Pages
 
 on:
   push:
     branches:
       - main
       - master
-      - features
-  pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
-  run-site:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v3
         with:
-          python-version: '3.12'
+          path: .
 
-      - name: Start static web server
-        run: |
-          nohup python -m http.server 8000 --bind 0.0.0.0 --directory . >/tmp/scoutify-http.log 2>&1 &
-          sleep 3
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
-      - name: Verify site responds
-        run: |
-          curl -I http://localhost:8000
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
