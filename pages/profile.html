@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scoutify Profile</title>
+    <meta
+      name="description"
+      content="Scoutify player and creator profile page for football talent discovery."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body class="profile-body">
+    <header class="topbar">
+      <div class="brand-group">
+        <button class="icon-button menu-button" aria-label="Open menu">☰</button>
+        <div class="brand" aria-label="Scoutify logo">
+          <span class="brand-mark">▶</span>
+          <span class="brand-text">Scoutify</span>
+        </div>
+      </div>
+
+      <div class="search-area">
+        <label class="search-box" aria-label="Search videos">
+          <input id="searchInput" type="search" placeholder="Search videos, creators, topics" />
+        </label>
+        <button id="searchBtn" class="search-button" aria-label="Search">Search</button>
+        <button class="icon-button mic-button" aria-label="Voice search">🎙️</button>
+      </div>
+
+      <div class="top-actions">
+        <button class="soft-button">Create</button>
+        <button class="primary-button">Sign in</button>
+        <button id="themeToggle" class="icon-button theme-button" aria-label="Toggle theme">🌙</button>
+      </div>
+    </header>
+
+    <main id="profilePage" class="profile-page" aria-live="polite"></main>
+
+    <script src="../assets/js/script.js"></script>
+  </body>
+</html>
