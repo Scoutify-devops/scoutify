@@ -66,6 +66,98 @@ img {
   min-height: 100vh;
 }
 
+.entry-body {
+  min-height: 100vh;
+  background: radial-gradient(circle at 12% 12%, rgba(29, 78, 216, 0.18), transparent 32%), var(--bg);
+}
+
+.entry-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 440px);
+  align-items: center;
+  gap: 9vw;
+  width: min(1120px, calc(100% - 48px));
+  min-height: 100vh;
+  margin: 0 auto;
+}
+
+.entry-intro {
+  max-width: 610px;
+}
+
+.entry-intro .brand,
+.role-entry-shell .brand {
+  margin-bottom: 80px;
+}
+
+.entry-intro .eyebrow,
+.role-entry-shell .eyebrow {
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.entry-intro h1,
+.role-entry-shell h1 {
+  max-width: 650px;
+  font-size: clamp(3rem, 7vw, 6.3rem);
+  line-height: 0.95;
+  letter-spacing: -0.08em;
+  margin-bottom: 22px;
+}
+
+.entry-intro > p:not(.eyebrow),
+.role-entry-copy {
+  max-width: 500px;
+  color: var(--text-soft);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.entry-proof {
+  display: flex;
+  gap: 10px;
+  margin-top: 32px;
+  color: var(--text-soft);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.entry-card,
+.role-entry-shell {
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow);
+}
+
+.entry-card h2,
+.role-entry-shell h2 {
+  font-size: 1.7rem;
+  letter-spacing: -0.05em;
+}
+
+.role-entry-body {
+  display: grid;
+  place-items: center;
+}
+
+.role-entry-shell {
+  width: min(760px, calc(100% - 32px));
+}
+
+.role-entry-shell .brand {
+  margin-bottom: 50px;
+}
+
+.role-entry-shell h1 {
+  font-size: clamp(3rem, 7vw, 5.5rem);
+}
+
+.role-entry-copy {
+  margin-bottom: 24px;
+}
+
 .topbar {
   position: sticky;
   top: 0;
@@ -384,6 +476,127 @@ body.dark .topbar {
 .role-card .primary-button {
   flex: 0 0 auto;
   margin-left: auto;
+}
+
+.events-section {
+  margin: 30px 0;
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.section-heading h2 {
+  font-size: 1.35rem;
+  letter-spacing: -0.04em;
+}
+
+.section-heading .eyebrow {
+  color: var(--primary);
+  margin-bottom: 5px;
+}
+
+.event-count,
+.event-status {
+  color: var(--text-soft);
+  font-size: 0.8rem;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.event-card {
+  display: flex;
+  gap: 13px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--bg-elevated);
+}
+
+.event-date {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  min-width: 48px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--chip);
+  color: var(--accent);
+}
+
+.event-date strong {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.event-date span {
+  font-size: 0.65rem;
+  font-weight: 800;
+}
+
+.event-card h3 {
+  font-size: 0.92rem;
+  margin: 2px 0 5px;
+}
+
+.event-card p {
+  color: var(--text-soft);
+  font-size: 0.78rem;
+  margin-bottom: 8px;
+}
+
+.event-status {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.role-choice-panel {
+  width: min(100% - 32px, 680px);
+  padding: 32px;
+}
+
+.role-choice-panel h2 {
+  font-size: 1.6rem;
+  letter-spacing: -0.04em;
+  margin-bottom: 8px;
+}
+
+.role-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.role-choice-card {
+  display: grid;
+  justify-items: start;
+  gap: 9px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  color: var(--text);
+  background: var(--bg-soft);
+  text-align: left;
+}
+
+.role-choice-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.role-choice-card span:last-child {
+  color: var(--text-soft);
+  font-size: 0.84rem;
+  line-height: 1.45;
 }
 
 .role-metrics {
@@ -864,6 +1077,25 @@ body.dark .chip.active {
 }
 
 @media (max-width: 700px) {
+  .entry-shell {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 40px 0;
+  }
+
+  .entry-intro .brand {
+    margin-bottom: 45px;
+  }
+
+  .entry-intro h1 {
+    font-size: 3.5rem;
+  }
+
+  .entry-card,
+  .role-entry-shell {
+    padding: 24px;
+  }
+
   .workspace-bar,
   .role-card {
     align-items: stretch;
@@ -875,6 +1107,11 @@ body.dark .chip.active {
   }
 
   .role-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .events-grid,
+  .role-choice-grid {
     grid-template-columns: 1fr;
   }
 

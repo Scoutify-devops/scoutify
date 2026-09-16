@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script>
+      if (!localStorage.getItem("scoutify_token")) window.location.replace("pages/login.html");
+      else if (!JSON.parse(localStorage.getItem("scoutify_user") || "{}").role) window.location.replace("pages/choose-role.html");
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Scoutify Videos</title>
@@ -116,13 +120,18 @@
               <h2 id="workspaceTitle">Scout view</h2>
               <p id="workspaceDescription">Watch player videos, review their stats, and start a conversation.</p>
             </div>
-            <div class="role-switch" aria-label="Choose workspace">
-              <button id="scoutModeButton" class="role-button active" type="button">Scout side</button>
-              <button id="playerModeButton" class="role-button" type="button">Player side</button>
-            </div>
           </section>
 
           <section id="rolePanel" class="role-panel" aria-live="polite"></section>
+
+          <section class="events-section">
+            <div class="section-heading"><div><p class="eyebrow">Coming up</p><h2>Next football events</h2></div><span class="event-count">3 tournaments</span></div>
+            <div class="events-grid">
+              <article class="event-card"><div class="event-date"><strong>18</strong><span>OCT</span></div><div><h3>Scoutify Youth Cup</h3><p>Johannesburg · U17 boys</p><span class="event-status">Open for player entries</span></div></article>
+              <article class="event-card"><div class="event-date"><strong>02</strong><span>NOV</span></div><div><h3>Rising Talent Showcase</h3><p>Cape Town · U19 showcase</p><span class="event-status">Scouts attending</span></div></article>
+              <article class="event-card"><div class="event-date"><strong>16</strong><span>NOV</span></div><div><h3>Future Stars Tournament</h3><p>Pretoria · Open trials</p><span class="event-status">Registration opens soon</span></div></article>
+            </div>
+          </section>
 
           <section class="filter-section">
             <div id="chipRow" class="chip-row" aria-label="Video categories"></div>
@@ -154,19 +163,26 @@
         <h2 id="authTitle">Sign in to your account</h2>
         <p id="authStatus" class="form-status" aria-live="polite"></p>
         <form id="authForm" class="auth-form">
-          <label>Name <input id="authName" name="name" autocomplete="name" /></label>
+          <label id="nameField">Name <input id="authName" name="name" autocomplete="name" /></label>
           <label>Email <input name="email" type="email" autocomplete="email" required /></label>
           <label>Password <input name="password" type="password" minlength="8" autocomplete="current-password" required /></label>
-          <label id="roleField">I am a
-            <select name="role">
-              <option value="player">Player</option>
-              <option value="scout">Scout</option>
-            </select>
-          </label>
           <button class="primary-button" type="submit">Continue</button>
         </form>
         <button id="googleButton" class="google-button" type="button">Continue with Google</button>
         <button id="authModeButton" class="text-button" type="button">Need an account? Create one</button>
+      </section>
+    </div>
+
+    <div id="roleChoiceModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-backdrop"></div>
+      <section class="modal-panel role-choice-panel" role="dialog" aria-modal="true" aria-labelledby="roleChoiceTitle">
+        <p class="eyebrow">Football community</p>
+        <h2 id="roleChoiceTitle">How will you use Scoutify?</h2>
+        <p class="form-status">Choose your side. You can change this later from your profile.</p>
+        <div class="role-choice-grid">
+          <button class="role-choice-card" data-role-choice="scout" type="button"><span class="role-icon">🔎</span><strong>Scout side</strong><span>Find players, watch videos, review stats, and message talent.</span></button>
+          <button class="role-choice-card" data-role-choice="player" type="button"><span class="role-icon">⚽</span><strong>Player side</strong><span>Post your videos and stats, then discover other players.</span></button>
+        </div>
       </section>
     </div>
 

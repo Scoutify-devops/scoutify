@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Choose your side | Scoutify</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body class="entry-body role-entry-body">
+    <main class="role-entry-shell">
+      <div class="brand"><span class="brand-mark">▶</span><span class="brand-text">Scoutify</span></div>
+      <p class="eyebrow">One football community</p>
+      <h1>Choose your side</h1>
+      <p class="role-entry-copy">Tell us how you want to use Scoutify. This decides the home experience you see next.</p>
+      <div class="role-choice-grid">
+        <button class="role-choice-card" data-role-choice="scout" type="button"><span class="role-icon">🔎</span><strong>I'm a scout</strong><span>Find players, watch videos, review stats, and message talent.</span></button>
+        <button class="role-choice-card" data-role-choice="player" type="button"><span class="role-icon">⚽</span><strong>I'm a player</strong><span>Post your videos and stats, then discover other players.</span></button>
+      </div>
+    </main>
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("token")) localStorage.setItem("scoutify_token", params.get("token"));
+      if (params.get("user")) localStorage.setItem("scoutify_user", params.get("user"));
+      if (!localStorage.getItem("scoutify_token")) window.location.replace("login.html");
+      document.querySelectorAll("[data-role-choice]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const user = JSON.parse(localStorage.getItem("scoutify_user") || "{}");
+          localStorage.setItem("scoutify_user", JSON.stringify({ ...user, role: button.dataset.roleChoice }));
+          window.location.href = "../index.html";
+        });
+      });
+    </script>
+  </body>
+</html>
