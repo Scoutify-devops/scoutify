@@ -26,7 +26,7 @@ const videos = [
     views: "890K",
     age: "5 days ago",
     duration: "18:22",
-    category: "Learning",
+    category: "Training",
     accent: "linear-gradient(135deg, #f59e0b, #ef4444)",
     image:
       "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=900&q=80",
@@ -64,7 +64,7 @@ const videos = [
     views: "645K",
     age: "2 days ago",
     duration: "15:10",
-    category: "Learning",
+    category: "Training",
     accent: "linear-gradient(135deg, #a855f7, #ec4899)",
     image:
       "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=900&q=80",
@@ -83,7 +83,7 @@ const videos = [
     views: "1.8M",
     age: "6 days ago",
     duration: "11:34",
-    category: "News",
+    category: "Player stories",
     accent: "linear-gradient(135deg, #f43f5e, #f97316)",
     image:
       "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=900&q=80",
@@ -96,19 +96,19 @@ const videos = [
   },
   {
     id: 6,
-    title: "Gaming night with football fans and live reactions",
+    title: "Football fans react to the weekend matches",
     channel: "FanZone",
     channelSlug: "fanzone",
     views: "523K",
     age: "4 hours ago",
     duration: "7:53",
-    category: "Gaming",
+    category: "Match footage",
     accent: "linear-gradient(135deg, #14b8a6, #0ea5e9)",
     image:
       "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80",
     youtubeId: "ysz5S6PUM-U",
     comments: [
-      { user: "Hugo", text: "The chat energy is incredible. This is exactly the kind of gaming content fans love." },
+      { user: "Hugo", text: "The match reactions make this a great watch for football fans." },
       { user: "Ivy", text: "The reactions make the whole stream feel live and personal." },
       { user: "Omar", text: "I came for the football talk and stayed for the community vibe." }
     ]
@@ -134,13 +134,13 @@ const videos = [
   },
   {
     id: 8,
-    title: "Music mix for intense training sessions",
+    title: "Matchday warm-up routine for players",
     channel: "Pulse Studio",
     channelSlug: "pulse-studio",
     views: "410K",
     age: "8 hours ago",
     duration: "20:03",
-    category: "Music",
+    category: "Training",
     accent: "linear-gradient(135deg, #8b5cf6, #ec4899)",
     image:
       "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=900&q=80",
@@ -200,7 +200,7 @@ const profiles = [
   }
 ];
 
-const categories = ["All", "Football", "Learning", "News", "Gaming", "Music"];
+const categories = ["All", "Football", "Training", "Match footage", "Player stories"];
 const chipRow = document.getElementById("chipRow");
 const videoGrid = document.getElementById("videoGrid");
 const searchInput = document.getElementById("searchInput");
@@ -478,12 +478,28 @@ renderProfilePage();
 
 const apiBase = window.location.protocol === "file:" ? "http://localhost:3000/api" : "/api";
 const authModal = document.getElementById("authModal");
+const roleChoiceModal = document.getElementById("roleChoiceModal");
 const uploadModal = document.getElementById("uploadModal");
 const messageDrawer = document.getElementById("messageDrawer");
 const authForm = document.getElementById("authForm");
 const authStatus = document.getElementById("authStatus");
 const uploadStatus = document.getElementById("uploadStatus");
 let authMode = "login";
+
+function showRoleChoice() {
+  hideSurface(authModal);
+  showSurface(roleChoiceModal);
+}
+
+document.querySelectorAll("[data-role-choice]").forEach((button) => {
+  button.addEventListener("click", () => {
+    workspaceRole = button.dataset.roleChoice;
+    const user = JSON.parse(localStorage.getItem("scoutify_user") || "{}");
+    localStorage.setItem("scoutify_user", JSON.stringify({ ...user, role: workspaceRole }));
+    hideSurface(roleChoiceModal);
+    renderWorkspace();
+  });
+});
 
 function currentToken() {
   return localStorage.getItem("scoutify_token");
@@ -515,11 +531,11 @@ function updateAuthMode() {
   document.getElementById("authTitle").textContent = registration ? "Create your account" : "Sign in to your account";
   document.getElementById("authName").toggleAttribute("required", registration);
   document.getElementById("authName").classList.toggle("hidden", !registration);
-  document.getElementById("roleField").classList.toggle("hidden", !registration);
+  document.getElementById("nameField").classList.toggle("hidden", !registration);
   document.getElementById("authModeButton").textContent = registration ? "Already have an account? Sign in" : "Need an account? Create one";
 }
 
-let workspaceRole = JSON.parse(localStorage.getItem("scoutify_user") || "{}").role || "scout";
+let workspaceRole = JSON.parse(localStorage.getItem("scoutify_user") || "{}").role || null;
 
 function renderWorkspace() {
   const isScout = workspaceRole === "scout";
@@ -527,17 +543,12 @@ function renderWorkspace() {
   document.getElementById("workspaceDescription").textContent = isScout
     ? "Watch player videos, review their stats, and start a conversation."
     : "Post your performances, keep your stats visible, and learn from other players.";
-  document.getElementById("scoutModeButton").classList.toggle("active", isScout);
-  document.getElementById("playerModeButton").classList.toggle("active", !isScout);
   document.getElementById("rolePanel").innerHTML = isScout
     ? `<article class="role-card role-card-primary"><span class="role-icon">🔎</span><div><h3>Scout talent</h3><p>Filter the feed by position, training, and match footage. Open a video to evaluate the player and use Messages to contact them.</p></div><button class="primary-button role-message-button" type="button">Message a player</button></article><div class="role-metrics"><div><strong>128</strong><span>players watched</span></div><div><strong>24</strong><span>shortlists</span></div><div><strong>8</strong><span>open conversations</span></div></div>`
     : `<article class="role-card role-card-primary"><span class="role-icon">⚽</span><div><h3>Build your player profile</h3><p>Upload match clips and training videos so scouts can judge your development from real evidence.</p></div><button class="primary-button role-upload-button" type="button">Post a video</button></article><div class="role-metrics"><div><strong>12</strong><span>videos posted</span></div><div><strong>86%</strong><span>profile complete</span></div><div><strong>4.8</strong><span>performance rating</span></div></div>`;
   document.querySelector(".role-message-button")?.addEventListener("click", () => document.getElementById("messageButton")?.click());
   document.querySelector(".role-upload-button")?.addEventListener("click", () => document.getElementById("createButton")?.click());
 }
-
-document.getElementById("scoutModeButton")?.addEventListener("click", () => { workspaceRole = "scout"; renderWorkspace(); });
-document.getElementById("playerModeButton")?.addEventListener("click", () => { workspaceRole = "player"; renderWorkspace(); });
 
 document.getElementById("signInButton")?.addEventListener("click", () => {
   authMode = "login";
@@ -565,7 +576,7 @@ authForm?.addEventListener("submit", async (event) => {
     workspaceRole = result.user.role || "player";
     document.getElementById("signInButton").textContent = result.user.name;
     authStatus.textContent = "You are signed in.";
-    setTimeout(() => hideSurface(authModal), 500);
+    setTimeout(showRoleChoice, 300);
   } catch (error) {
     authStatus.textContent = error.message;
   }
@@ -624,6 +635,7 @@ document.querySelectorAll("[data-close]").forEach((button) => {
 const callbackParams = new URLSearchParams(window.location.search);
 if (callbackParams.get("token")) {
   localStorage.setItem("scoutify_token", callbackParams.get("token"));
+  showRoleChoice();
   window.history.replaceState({}, document.title, window.location.pathname);
 }
 if (callbackParams.get("authError")) {
@@ -636,4 +648,4 @@ if (localStorage.getItem("scoutify_user")) {
   try { document.getElementById("signInButton").textContent = JSON.parse(localStorage.getItem("scoutify_user")).name; } catch { /* ignore malformed local state */ }
 }
 updateAuthMode();
-renderWorkspace();
+if (workspaceRole) renderWorkspace();

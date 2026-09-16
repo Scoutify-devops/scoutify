@@ -106,7 +106,7 @@ app.get("/api/auth/google/callback", async (req, res) => {
       user.googleTokens = tokens;
     }
     await writeDb(db);
-    res.redirect(`/?token=${encodeURIComponent(tokenFor(user))}`);
+    res.redirect(`/pages/choose-role.html?token=${encodeURIComponent(tokenFor(user))}&user=${encodeURIComponent(JSON.stringify({ id: user.id, name: user.name, email: user.email }))}`);
   } catch {
     res.redirect("/?authError=Google%20sign-in%20failed");
   }
