@@ -14,6 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body>
@@ -40,8 +41,9 @@
         </div>
 
         <div class="top-actions">
-          <button class="soft-button">Create</button>
-          <button class="primary-button">Sign in</button>
+          <button id="createButton" class="soft-button">Create</button>
+          <button id="signInButton" class="primary-button">Sign in</button>
+          <button id="messageButton" class="icon-button" aria-label="Open messages">💬</button>
           <button id="themeToggle" class="icon-button theme-button" aria-label="Toggle theme">🌙</button>
         </div>
       </header>
@@ -53,42 +55,15 @@
               <span>🏠</span>
               <span>Home</span>
             </a>
-            <a class="nav-item" href="#">
-              <span>🎬</span>
-              <span>Shorts</span>
-            </a>
-            <a class="nav-item" href="#">
-              <span>📺</span>
-              <span>Subscriptions</span>
-            </a>
-            <a class="nav-item" href="#">
-              <span>📚</span>
-              <span>Library</span>
-            </a>
           </nav>
 
           <div class="nav-block">
-            <p class="nav-title">You</p>
-            <a class="nav-item" href="#">
-              <span>🕘</span>
-              <span>History</span>
-            </a>
-            <a class="nav-item" href="#">
-              <span>🎥</span>
-              <span>Your videos</span>
-            </a>
-            <a class="nav-item" href="#">
-              <span>⏱️</span>
-              <span>Watch later</span>
-            </a>
-            <a class="nav-item" href="#">
-              <span>👍</span>
-              <span>Liked videos</span>
-            </a>
+            <p class="nav-title">Scoutify</p>
+            <p class="sidebar-note">A focused home for scouts and players to find each other through video.</p>
           </div>
 
           <div class="nav-block">
-            <p class="nav-title">Subscriptions</p>
+            <p class="nav-title">Active creators</p>
             <div class="subscription-list">
               <div class="subscription-item"><span class="dot green"></span>GoalZone</div>
               <div class="subscription-item"><span class="dot blue"></span>Elite Academy</div>
@@ -135,6 +110,20 @@
             </div>
           </section>
 
+          <section class="workspace-bar">
+            <div>
+              <p class="eyebrow workspace-eyebrow">Your workspace</p>
+              <h2 id="workspaceTitle">Scout view</h2>
+              <p id="workspaceDescription">Watch player videos, review their stats, and start a conversation.</p>
+            </div>
+            <div class="role-switch" aria-label="Choose workspace">
+              <button id="scoutModeButton" class="role-button active" type="button">Scout side</button>
+              <button id="playerModeButton" class="role-button" type="button">Player side</button>
+            </div>
+          </section>
+
+          <section id="rolePanel" class="role-panel" aria-live="polite"></section>
+
           <section class="filter-section">
             <div id="chipRow" class="chip-row" aria-label="Video categories"></div>
           </section>
@@ -155,6 +144,56 @@
         <button id="closeModal" class="close-button" aria-label="Close video">✕</button>
         <div id="modalContent"></div>
       </div>
+    </div>
+
+    <div id="authModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-backdrop" data-close="authModal"></div>
+      <section class="modal-panel auth-panel" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+        <button class="close-button" data-close="authModal" aria-label="Close sign in">✕</button>
+        <p class="eyebrow">Welcome to Scoutify</p>
+        <h2 id="authTitle">Sign in to your account</h2>
+        <p id="authStatus" class="form-status" aria-live="polite"></p>
+        <form id="authForm" class="auth-form">
+          <label>Name <input id="authName" name="name" autocomplete="name" /></label>
+          <label>Email <input name="email" type="email" autocomplete="email" required /></label>
+          <label>Password <input name="password" type="password" minlength="8" autocomplete="current-password" required /></label>
+          <label id="roleField">I am a
+            <select name="role">
+              <option value="player">Player</option>
+              <option value="scout">Scout</option>
+            </select>
+          </label>
+          <button class="primary-button" type="submit">Continue</button>
+        </form>
+        <button id="googleButton" class="google-button" type="button">Continue with Google</button>
+        <button id="authModeButton" class="text-button" type="button">Need an account? Create one</button>
+      </section>
+    </div>
+
+    <aside id="messageDrawer" class="message-drawer" aria-hidden="true">
+      <div class="drawer-header"><div><p class="eyebrow">Community</p><h2>Messages</h2></div><button class="close-button" data-close="messageDrawer" aria-label="Close messages">✕</button></div>
+      <div id="messageList" class="message-list"><p class="empty-state">Sign in to see your conversations.</p></div>
+      <form id="messageForm" class="message-form">
+        <input name="to" placeholder="Recipient user ID" required />
+        <textarea name="text" rows="3" placeholder="Write a message..." required></textarea>
+        <button class="primary-button" type="submit">Send message</button>
+      </form>
+    </aside>
+
+    <div id="uploadModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-backdrop" data-close="uploadModal"></div>
+      <section class="modal-panel upload-panel" role="dialog" aria-modal="true" aria-labelledby="uploadTitle">
+        <button class="close-button" data-close="uploadModal" aria-label="Close upload">✕</button>
+        <p class="eyebrow">Creator studio</p><h2 id="uploadTitle">Upload to YouTube</h2>
+        <p id="uploadStatus" class="form-status">Connect Google first, then upload a video to your channel.</p>
+        <form id="uploadForm" class="auth-form">
+          <label>Title <input name="title" required placeholder="Give your video a title" /></label>
+          <label>Description <textarea name="description" rows="3" placeholder="Tell scouts what to look for"></textarea></label>
+          <label>Privacy <select name="privacyStatus"><option value="private">Private</option><option value="unlisted">Unlisted</option><option value="public">Public</option></select></label>
+          <label>Video file <input name="video" type="file" accept="video/*" required /></label>
+          <button class="primary-button" type="submit">Upload video</button>
+        </form>
+      </section>
     </div>
 
     <script src="assets/js/script.js"></script>
