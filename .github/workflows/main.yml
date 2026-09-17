@@ -29,6 +29,13 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Verify login and messaging entry pages
+        run: |
+          test -f index.html
+          test -f pages/login.html
+          test -f pages/messages.html
+          echo "Login and messages pages are present for GitHub Pages deployment."
+
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
