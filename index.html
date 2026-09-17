@@ -2,8 +2,7 @@
 <html lang="en">
   <head>
     <script>
-      if (!localStorage.getItem("scoutify_token")) window.location.replace("pages/login.html");
-      else if (!JSON.parse(localStorage.getItem("scoutify_user") || "{}").role) window.location.replace("pages/choose-role.html");
+      window.location.replace("pages/login.html");
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
