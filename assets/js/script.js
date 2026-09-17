@@ -480,7 +480,6 @@ const apiBase = window.location.protocol === "file:" ? "http://localhost:3000/ap
 const authModal = document.getElementById("authModal");
 const roleChoiceModal = document.getElementById("roleChoiceModal");
 const uploadModal = document.getElementById("uploadModal");
-const messageDrawer = document.getElementById("messageDrawer");
 const authForm = document.getElementById("authForm");
 const authStatus = document.getElementById("authStatus");
 const uploadStatus = document.getElementById("uploadStatus");
@@ -546,7 +545,7 @@ function renderWorkspace() {
   document.getElementById("rolePanel").innerHTML = isScout
     ? `<article class="role-card role-card-primary"><span class="role-icon">🔎</span><div><h3>Scout talent</h3><p>Filter the feed by position, training, and match footage. Open a video to evaluate the player and use Messages to contact them.</p></div><button class="primary-button role-message-button" type="button">Message a player</button></article><div class="role-metrics"><div><strong>128</strong><span>players watched</span></div><div><strong>24</strong><span>shortlists</span></div><div><strong>8</strong><span>open conversations</span></div></div>`
     : `<article class="role-card role-card-primary"><span class="role-icon">⚽</span><div><h3>Build your player profile</h3><p>Upload match clips and training videos so scouts can judge your development from real evidence.</p></div><button class="primary-button role-upload-button" type="button">Post a video</button></article><div class="role-metrics"><div><strong>12</strong><span>videos posted</span></div><div><strong>86%</strong><span>profile complete</span></div><div><strong>4.8</strong><span>performance rating</span></div></div>`;
-  document.querySelector(".role-message-button")?.addEventListener("click", () => document.getElementById("messageButton")?.click());
+  document.querySelector(".role-message-button")?.addEventListener("click", () => { window.location.href = "pages/messages.html"; });
   document.querySelector(".role-upload-button")?.addEventListener("click", () => document.getElementById("createButton")?.click());
 }
 
@@ -579,29 +578,6 @@ authForm?.addEventListener("submit", async (event) => {
     setTimeout(showRoleChoice, 300);
   } catch (error) {
     authStatus.textContent = error.message;
-  }
-});
-
-document.getElementById("messageButton")?.addEventListener("click", async () => {
-  showSurface(messageDrawer);
-  if (!currentToken()) return;
-  try {
-    const messages = await apiRequest("/messages");
-    const list = document.getElementById("messageList");
-    list.innerHTML = messages.length ? messages.map((message) => `<article class="message-item"><strong>${message.from === JSON.parse(localStorage.getItem("scoutify_user") || "{}").id ? "You" : message.from}</strong><p>${message.text}</p></article>`).join("") : "<p class='empty-state'>No messages yet. Start a conversation.</p>";
-  } catch (error) {
-    document.getElementById("messageList").innerHTML = `<p class="empty-state">${error.message}</p>`;
-  }
-});
-
-document.getElementById("messageForm")?.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  try {
-    await apiRequest("/messages", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.fromEntries(new FormData(event.target))) });
-    event.target.reset();
-    document.getElementById("messageList").innerHTML = "<p class='empty-state'>Message sent.</p>";
-  } catch (error) {
-    document.getElementById("messageList").innerHTML = `<p class="empty-state">${error.message}</p>`;
   }
 });
 

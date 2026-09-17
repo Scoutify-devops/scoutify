@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Scoutify Videos</title>
     <meta
+    
       name="description"
       content="A YouTube-inspired video platform for football talent discovery and entertainment."
     />
@@ -47,7 +48,7 @@
         <div class="top-actions">
           <button id="createButton" class="soft-button">Create</button>
           <button id="signInButton" class="primary-button">Sign in</button>
-          <button id="messageButton" class="icon-button" aria-label="Open messages">💬</button>
+          <a class="icon-button" href="pages/messages.html" aria-label="Open messages">💬</a>
           <button id="themeToggle" class="icon-button theme-button" aria-label="Toggle theme">🌙</button>
         </div>
       </header>
@@ -185,16 +186,6 @@
         </div>
       </section>
     </div>
-
-    <aside id="messageDrawer" class="message-drawer" aria-hidden="true">
-      <div class="drawer-header"><div><p class="eyebrow">Community</p><h2>Messages</h2></div><button class="close-button" data-close="messageDrawer" aria-label="Close messages">✕</button></div>
-      <div id="messageList" class="message-list"><p class="empty-state">Sign in to see your conversations.</p></div>
-      <form id="messageForm" class="message-form">
-        <input name="to" placeholder="Recipient user ID" required />
-        <textarea name="text" rows="3" placeholder="Write a message..." required></textarea>
-        <button class="primary-button" type="submit">Send message</button>
-      </form>
-    </aside>
 
     <div id="uploadModal" class="modal hidden" aria-hidden="true">
       <div class="modal-backdrop" data-close="uploadModal"></div>
