@@ -29,7 +29,6 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
-<<<<<<< HEAD
       - name: Verify Scoutify app flow pages
         run: |
           test -f index.html
@@ -38,7 +37,7 @@ jobs:
           test -f pages/messages.html
           test -f pages/profile.html
           echo "Scoutify login, role, messages, and profile pages are present for GitHub Pages deployment."
-=======
+          
       - name: Verify login and messaging entry pages
         run: |
           test -f index.html
@@ -46,10 +45,7 @@ jobs:
           test -f pages/messages.html
           echo "Login and messages pages are present for GitHub Pages deployment."
 
-      - name: Upload static site
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
+      
 
   deploy:
     needs: build
