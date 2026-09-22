@@ -4,30 +4,46 @@ const authStatus = document.getElementById("authStatus");
 const nameField = document.getElementById("nameField");
 const authTitle = document.getElementById("authTitle");
 const modeButton = document.getElementById("modeButton");
+const googleButton = document.getElementById("googleButton");
 let mode = "login";
 
+function apiRequest(path, options = {}) {
+  const headers = { ...(options.headers || {}) };
+  const token = localStorage.getItem("scoutify_token");
+  if (token) headers.Authorization = `Bearer ${token}`;
+
+  return fetch(`${apiBase}${path}`, { ...options, headers }).then(async (response) => {
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(data.error || "Something went wrong. Please try again.");
+    }
+    return data;
+  });
+}
+
 function updateMode() {
+  if (!authTitle || !modeButton || !nameField) return;
+
   const registration = mode === "register";
   authTitle.textContent = registration ? "Create your player account" : "Welcome back";
   nameField.classList.toggle("hidden", !registration);
-  document.getElementById("authName").required = registration;
+  const authName = document.getElementById("authName");
+  if (authName) authName.required = registration;
   modeButton.textContent = registration ? "Already have an account? Sign in" : "New to Scoutify? Create an account";
 }
 
-modeButton.addEventListener("click", () => {
+modeButton?.addEventListener("click", () => {
   mode = mode === "login" ? "register" : "login";
   updateMode();
-  authStatus.textContent = "";
+  if (authStatus) authStatus.textContent = "";
 });
 
-document.getElementById("googleButton")?.addEventListener("click", () => {
+googleButton?.addEventListener("click", () => {
   window.location.href = `${apiBase}/auth/google`;
 });
 
-authForm.addEventListener("submit", async (event) => {
+authForm?.addEventListener("submit", (event) => {
   event.preventDefault();
-  localStorage.setItem("scoutify_token", "demo-session");
-  localStorage.setItem("scoutify_user", JSON.stringify({ id: "demo-user", name: "Scoutify user", email: "", role: null }));
   window.location.href = "choose-role.html";
 });
 

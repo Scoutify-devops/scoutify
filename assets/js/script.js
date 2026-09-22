@@ -1,203 +1,21 @@
-const videos = [
-  {
-    id: 1,
-    title: "Elite football skills session: dribbling and quick feet",
-    channel: "GoalZone",
-    channelSlug: "goalzone",
-    views: "2.1M",
-    age: "3 days ago",
-    duration: "12:48",
-    category: "Football",
-    accent: "linear-gradient(135deg, #0ea5e9, #2563eb)",
-    image:
-      "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=900&q=80",
-    youtubeId: "ScMzIvxBSi4",
-    comments: [
-      { user: "Ava", text: "This training routine is perfect for youth players chasing more agility." },
-      { user: "Dylan", text: "The quick-feet drills are great and easy to repeat in training sessions." },
-      { user: "Noah", text: "I need more of this type of football content on my feed." }
-    ]
-  },
-  {
-    id: 2,
-    title: "Top 10 tactical formations for rising teams",
-    channel: "Tactical Edge",
-    channelSlug: "tactical-edge",
-    views: "890K",
-    age: "5 days ago",
-    duration: "18:22",
-    category: "Training",
-    accent: "linear-gradient(135deg, #f59e0b, #ef4444)",
-    image:
-      "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=900&q=80",
-    youtubeId: "dQw4w9WgXcQ",
-    comments: [
-      { user: "Mia", text: "Love the breakdown of the 4-3-3 and 3-2-5 transitions." },
-      { user: "Leo", text: "Very useful for players learning movement without the ball." },
-      { user: "Zoe", text: "That last formation idea could really help a smaller squad." }
-    ]
-  },
-  {
-    id: 3,
-    title: "Street football showdown: final minute drama",
-    channel: "Street Football",
-    channelSlug: "street-football",
-    views: "1.4M",
-    age: "1 week ago",
-    duration: "9:15",
-    category: "Football",
-    accent: "linear-gradient(135deg, #22c55e, #16a34a)",
-    image:
-      "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=900&q=80",
-    youtubeId: "ysz5S6PUM-U",
-    comments: [
-      { user: "Sam", text: "That finish at the end was unreal. Pure composure." },
-      { user: "Tariq", text: "The crowd energy in this match makes it feel like a real finals atmosphere." },
-      { user: "Jade", text: "This is exactly the kind of content fans want more of." }
-    ]
-  },
-  {
-    id: 4,
-    title: "Build a high-performance training plan for players",
-    channel: "Elite Academy",
-    channelSlug: "elite-academy",
-    views: "645K",
-    age: "2 days ago",
-    duration: "15:10",
-    category: "Training",
-    accent: "linear-gradient(135deg, #a855f7, #ec4899)",
-    image:
-      "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=900&q=80",
-    youtubeId: "M7lc1UVf-VE",
-    comments: [
-      { user: "Emma", text: "The weekly structure is clear and easy to apply with a youth side." },
-      { user: "Kai", text: "I appreciate the focus on conditioning without overtraining." },
-      { user: "Riley", text: "This would work well for coaches building a full season cycle." }
-    ]
-  },
-  {
-    id: 5,
-    title: "Inside the life of a football scout",
-    channel: "Premier Pulse",
-    channelSlug: "premier-pulse",
-    views: "1.8M",
-    age: "6 days ago",
-    duration: "11:34",
-    category: "Player stories",
-    accent: "linear-gradient(135deg, #f43f5e, #f97316)",
-    image:
-      "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=900&q=80",
-    youtubeId: "aqz-KE-bpKQ",
-    comments: [
-      { user: "Priya", text: "The behind-the-scenes info is really useful for anyone wanting to work in football." },
-      { user: "Mason", text: "This gives a realistic look at the process scouts go through every week." },
-      { user: "Nathan", text: "The advice on talent spotting and consistency is excellent." }
-    ]
-  },
-  {
-    id: 6,
-    title: "Football fans react to the weekend matches",
-    channel: "FanZone",
-    channelSlug: "fanzone",
-    views: "523K",
-    age: "4 hours ago",
-    duration: "7:53",
-    category: "Match footage",
-    accent: "linear-gradient(135deg, #14b8a6, #0ea5e9)",
-    image:
-      "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80",
-    youtubeId: "ysz5S6PUM-U",
-    comments: [
-      { user: "Hugo", text: "The match reactions make this a great watch for football fans." },
-      { user: "Ivy", text: "The reactions make the whole stream feel live and personal." },
-      { user: "Omar", text: "I came for the football talk and stayed for the community vibe." }
-    ]
-  },
-  {
-    id: 7,
-    title: "Best football moments from this weekend",
-    channel: "Match Feed",
-    channelSlug: "match-feed",
-    views: "3.7M",
-    age: "1 day ago",
-    duration: "14:57",
-    category: "Football",
-    accent: "linear-gradient(135deg, #f97316, #ef4444)",
-    image:
-      "https://images.unsplash.com/photo-1556056504-5c7696c4c28d?auto=format&fit=crop&w=900&q=80",
-    youtubeId: "ScMzIvxBSi4",
-    comments: [
-      { user: "Luca", text: "This is a great recap of what was actually exciting this weekend." },
-      { user: "Faith", text: "The pace of the highlights is perfect for a quick sports fix." },
-      { user: "Jules", text: "This is the kind of clip I keep sending to my football group chat." }
-    ]
-  },
-  {
-    id: 8,
-    title: "Matchday warm-up routine for players",
-    channel: "Pulse Studio",
-    channelSlug: "pulse-studio",
-    views: "410K",
-    age: "8 hours ago",
-    duration: "20:03",
-    category: "Training",
-    accent: "linear-gradient(135deg, #8b5cf6, #ec4899)",
-    image:
-      "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=900&q=80",
-    youtubeId: "M7lc1UVf-VE",
-    comments: [
-      { user: "Aiden", text: "Honestly this playlist is amazing for gym and field sessions." },
-      { user: "Chloe", text: "The energy level stays high all the way through." },
-      { user: "Seth", text: "This mix would be perfect for a team warm-up before a match." }
-    ]
-  }
+﻿const apiBase = window.location.protocol === "file:" ? "http://localhost:3000/api" : "/api";
+const defaultVideos = [
+  { id: 1, title: "Elite football skills session: dribbling and quick feet", channel: "GoalZone", channelSlug: "goalzone", views: "2.1M", age: "3 days ago", duration: "12:48", category: "Football", accent: "linear-gradient(135deg, #0ea5e9, #2563eb)", image: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=900&q=80", youtubeId: "ScMzIvxBSi4", comments: [{ user: "Ava", text: "This training routine is perfect for youth players chasing more agility." }, { user: "Dylan", text: "The quick-feet drills are great and easy to repeat in training sessions." }, { user: "Noah", text: "I need more of this type of football content on my feed." }] },
+  { id: 2, title: "Top 10 tactical formations for rising teams", channel: "Tactical Edge", channelSlug: "tactical-edge", views: "890K", age: "5 days ago", duration: "18:22", category: "Training", accent: "linear-gradient(135deg, #f59e0b, #ef4444)", image: "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=900&q=80", youtubeId: "dQw4w9WgXcQ", comments: [{ user: "Mia", text: "Love the breakdown of the 4-3-3 and 3-2-5 transitions." }, { user: "Leo", text: "Very useful for players learning movement without the ball." }, { user: "Zoe", text: "That last formation idea could really help a smaller squad." }] },
+  { id: 3, title: "Street football showdown: final minute drama", channel: "Street Football", channelSlug: "street-football", views: "1.4M", age: "1 week ago", duration: "9:15", category: "Football", accent: "linear-gradient(135deg, #22c55e, #16a34a)", image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=900&q=80", youtubeId: "ysz5S6PUM-U", comments: [{ user: "Sam", text: "That finish at the end was unreal. Pure composure." }, { user: "Tariq", text: "The crowd energy in this match makes it feel like a real finals atmosphere." }, { user: "Jade", text: "This is exactly the kind of content fans want more of." }] },
+  { id: 4, title: "Build a high-performance training plan for players", channel: "Elite Academy", channelSlug: "elite-academy", views: "645K", age: "2 days ago", duration: "15:10", category: "Training", accent: "linear-gradient(135deg, #a855f7, #ec4899)", image: "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=900&q=80", youtubeId: "M7lc1UVf-VE", comments: [{ user: "Emma", text: "The weekly structure is clear and easy to apply with a youth side." }, { user: "Kai", text: "I appreciate the focus on conditioning without overtraining." }, { user: "Riley", text: "This would work well for coaches building a full season cycle." }] },
+  { id: 5, title: "Inside the life of a football scout", channel: "Premier Pulse", channelSlug: "premier-pulse", views: "1.8M", age: "6 days ago", duration: "11:34", category: "Player stories", accent: "linear-gradient(135deg, #f43f5e, #f97316)", image: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=900&q=80", youtubeId: "aqz-KE-bpKQ", comments: [{ user: "Priya", text: "The behind-the-scenes info is really useful for anyone wanting to work in football." }, { user: "Mason", text: "This gives a realistic look at the process scouts go through every week." }, { user: "Nathan", text: "The advice on talent spotting and consistency is excellent." }] },
+  { id: 6, title: "Football fans react to the weekend matches", channel: "FanZone", channelSlug: "fanzone", views: "523K", age: "4 hours ago", duration: "7:53", category: "Match footage", accent: "linear-gradient(135deg, #14b8a6, #0ea5e9)", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80", youtubeId: "ysz5S6PUM-U", comments: [{ user: "Hugo", text: "The match reactions make this a great watch for football fans." }, { user: "Ivy", text: "The reactions make the whole stream feel live and personal." }, { user: "Omar", text: "I came for the football talk and stayed for the community vibe." }] },
+  { id: 7, title: "Best football moments from this weekend", channel: "Match Feed", channelSlug: "match-feed", views: "3.7M", age: "1 day ago", duration: "14:57", category: "Football", accent: "linear-gradient(135deg, #f97316, #ef4444)", image: "https://images.unsplash.com/photo-1556056504-5c7696c4c28d?auto=format&fit=crop&w=900&q=80", youtubeId: "ScMzIvxBSi4", comments: [{ user: "Luca", text: "This is a great recap of what was actually exciting this weekend." }, { user: "Faith", text: "The pace of the highlights is perfect for a quick sports fix." }, { user: "Jules", text: "This is the kind of clip I keep sending to my football group chat." }] },
+  { id: 8, title: "Matchday warm-up routine for players", channel: "Pulse Studio", channelSlug: "pulse-studio", views: "410K", age: "8 hours ago", duration: "20:03", category: "Training", accent: "linear-gradient(135deg, #8b5cf6, #ec4899)", image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=900&q=80", youtubeId: "M7lc1UVf-VE", comments: [{ user: "Aiden", text: "Honestly this playlist is amazing for gym and field sessions." }, { user: "Chloe", text: "The energy level stays high all the way through." }, { user: "Seth", text: "This mix would be perfect for a team warm-up before a match." }] }
 ];
+let videos = [...defaultVideos];
 
 const profiles = [
-  {
-    slug: "goalzone",
-    name: "GoalZone",
-    role: "Football coach and talent creator",
-    location: "Johannesburg, South Africa",
-    bio: "GoalZone helps young players sharpen their technical skills, build confidence, and understand the game beyond the basics.",
-    stats: { videos: 128, subscribers: "45K", followers: "12K", rating: "4.9" },
-    tags: ["Dribbling", "Training", "Youth Development", "Football IQ"],
-    featured: "Elite football skills session: dribbling and quick feet",
-    banner: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=80"
-  },
-  {
-    slug: "tactical-edge",
-    name: "Tactical Edge",
-    role: "Analysis and coaching educator",
-    location: "Cape Town, South Africa",
-    bio: "Tactical Edge brings tactical breakdowns and weekly coaching ideas for players, coaches, and football analysts.",
-    stats: { videos: 76, subscribers: "21K", followers: "8.7K", rating: "4.8" },
-    tags: ["Tactics", "Formations", "Strategy", "Team Play"],
-    featured: "Top 10 tactical formations for rising teams",
-    banner: "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1200&q=80"
-  },
-  {
-    slug: "street-football",
-    name: "Street Football",
-    role: "Street football storyteller",
-    location: "Durban, South Africa",
-    bio: "Street Football captures the raw passion, creativity, and energy of community matches and local football culture.",
-    stats: { videos: 212, subscribers: "89K", followers: "63K", rating: "4.9" },
-    tags: ["Local Matches", "Pressure Moments", "Community", "Skill"],
-    featured: "Street football showdown: final minute drama",
-    banner: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80"
-  },
-  {
-    slug: "elite-academy",
-    name: "Elite Academy",
-    role: "Performance coach",
-    location: "Pretoria, South Africa",
-    bio: "Elite Academy focuses on high performance, sports science, and long-term development for ambitious players.",
-    stats: { videos: 94, subscribers: "31K", followers: "16K", rating: "4.7" },
-    tags: ["Conditioning", "Academy", "Speed", "Recovery"],
-    featured: "Build a high-performance training plan for players",
-    banner: "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=1200&q=80"
-  }
+  { slug: "goalzone", name: "GoalZone", role: "Football coach and talent creator", location: "Johannesburg, South Africa", bio: "GoalZone helps young players sharpen their technical skills, build confidence, and understand the game beyond the basics.", stats: { videos: 128, subscribers: "45K", followers: "12K", rating: "4.9" }, tags: ["Dribbling", "Training", "Youth Development", "Football IQ"], featured: "Elite football skills session: dribbling and quick feet", banner: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=80" },
+  { slug: "tactical-edge", name: "Tactical Edge", role: "Analysis and coaching educator", location: "Cape Town, South Africa", bio: "Tactical Edge brings tactical breakdowns and weekly coaching ideas for players, coaches, and football analysts.", stats: { videos: 76, subscribers: "21K", followers: "8.7K", rating: "4.8" }, tags: ["Tactics", "Formations", "Strategy", "Team Play"], featured: "Top 10 tactical formations for rising teams", banner: "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1200&q=80" },
+  { slug: "street-football", name: "Street Football", role: "Street football storyteller", location: "Durban, South Africa", bio: "Street Football captures the raw passion, creativity, and energy of community matches and local football culture.", stats: { videos: 212, subscribers: "89K", followers: "63K", rating: "4.9" }, tags: ["Local Matches", "Pressure Moments", "Community", "Skill"], featured: "Street football showdown: final minute drama", banner: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80" },
+  { slug: "elite-academy", name: "Elite Academy", role: "Performance coach", location: "Pretoria, South Africa", bio: "Elite Academy focuses on high performance, sports science, and long-term development for ambitious players.", stats: { videos: 94, subscribers: "31K", followers: "16K", rating: "4.7" }, tags: ["Conditioning", "Academy", "Speed", "Recovery"], featured: "Build a high-performance training plan for players", banner: "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=1200&q=80" }
 ];
 
 const categories = ["All", "Football", "Training", "Match footage", "Player stories"];
@@ -209,6 +27,20 @@ const modal = document.getElementById("videoModal");
 const modalContent = document.getElementById("modalContent");
 const closeModalButton = document.getElementById("closeModal");
 const profilePage = document.getElementById("profilePage");
+const authModal = document.getElementById("authModal");
+const roleChoiceModal = document.getElementById("roleChoiceModal");
+const uploadModal = document.getElementById("uploadModal");
+const authForm = document.getElementById("authForm");
+const authStatus = document.getElementById("authStatus");
+const uploadStatus = document.getElementById("uploadStatus");
+let authMode = "login";
+let workspaceRole = (() => {
+  try {
+    return JSON.parse(localStorage.getItem("scoutify_user") || "{}").role || null;
+  } catch {
+    return null;
+  }
+})();
 
 function getProfileBySlug(slug) {
   return profiles.find((profile) => profile.slug === slug) || profiles[0];
@@ -222,26 +54,45 @@ function viewProfile(slug) {
 
 function renderChips() {
   if (!chipRow) return;
+  chipRow.innerHTML = categories.map((category, index) => `<button class="chip ${index === 0 ? "active" : ""}" data-category="${category}">${category}</button>`).join("");
+}
 
-  chipRow.innerHTML = categories
-    .map(
-      (category, index) =>
-        `<button class="chip ${index === 0 ? "active" : ""}" data-category="${category}">${category}</button>`
-    )
-    .join("");
+async function loadYouTubeUploads() {
+  try {
+    const data = await apiRequest("/videos");
+    const uploadedVideos = Array.isArray(data.videos) ? data.videos : [];
+    if (!uploadedVideos.length) return;
+
+    const mapped = uploadedVideos.map((video, index) => ({
+      id: Number(`${Date.now()}${index}`),
+      title: video.title || "Player upload",
+      channel: "Player upload",
+      channelSlug: "player-upload",
+      views: "New",
+      age: "just now",
+      duration: "—",
+      category: "Football",
+      accent: "linear-gradient(135deg, #f97316, #ef4444)",
+      image: `https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`,
+      youtubeId: video.youtubeId,
+      comments: []
+    }));
+
+    videos = [...defaultVideos, ...mapped];
+    renderVideos();
+  } catch (error) {
+    console.warn("No uploaded videos to display yet.", error.message);
+  }
 }
 
 function renderVideos() {
   if (!videoGrid || !searchInput) return;
-
   const activeCategory = document.querySelector(".chip.active")?.dataset.category || "All";
   const query = searchInput.value.trim().toLowerCase();
-
   const filteredVideos = videos.filter((video) => {
     const matchesCategory = activeCategory === "All" || video.category === activeCategory;
     const haystack = `${video.title} ${video.channel} ${video.category}`.toLowerCase();
-    const matchesSearch = haystack.includes(query);
-    return matchesCategory && matchesSearch;
+    return matchesCategory && haystack.includes(query);
   });
 
   if (!filteredVideos.length) {
@@ -254,29 +105,25 @@ function renderVideos() {
     return;
   }
 
-  videoGrid.innerHTML = filteredVideos
-    .map(
-      (video) => `
-        <article class="video-card" data-video-id="${video.id}" tabindex="0">
-          <div class="thumbnail" style="background-image: url('${video.image}')">
-            <span class="duration">${video.duration}</span>
-          </div>
-          <div class="video-body">
-            <div class="channel-avatar" style="background: ${video.accent};">${video.channel.slice(0, 1)}</div>
-            <div class="video-copy">
-              <h3>${video.title}</h3>
-              <p class="channel-name">${video.channel}</p>
-              <p class="meta">${video.views} views • ${video.age}</p>
-            </div>
-            <div class="video-actions">
-              <button class="view-profile-button" data-profile="${video.channelSlug}" aria-label="View ${video.channel} profile">View profile</button>
-              <button class="more-button" aria-label="More options">⋮</button>
-            </div>
-          </div>
-        </article>
-      `
-    )
-    .join("");
+  videoGrid.innerHTML = filteredVideos.map((video) => `
+    <article class="video-card" data-video-id="${video.id}" tabindex="0">
+      <div class="thumbnail" style="background-image: url('${video.image}')">
+        <span class="duration">${video.duration}</span>
+      </div>
+      <div class="video-body">
+        <div class="channel-avatar" style="background: ${video.accent};">${video.channel.slice(0, 1)}</div>
+        <div class="video-copy">
+          <h3>${video.title}</h3>
+          <p class="channel-name">${video.channel}</p>
+          <p class="meta">${video.views} views • ${video.age}</p>
+        </div>
+        <div class="video-actions">
+          <button class="view-profile-button" data-profile="${video.channelSlug}" aria-label="View ${video.channel} profile">View profile</button>
+          <button class="more-button" aria-label="More options">⋮</button>
+        </div>
+      </div>
+    </article>
+  `).join("");
 
   document.querySelectorAll(".video-card").forEach((card) => {
     card.addEventListener("click", (event) => {
@@ -286,21 +133,14 @@ function renderVideos() {
         viewProfile(profileButton.dataset.profile);
         return;
       }
-
-      const moreButton = event.target.closest(".more-button");
-      if (moreButton) {
-        return;
-      }
-
-      const selectedId = Number(card.dataset.videoId);
-      openModal(selectedId);
+      if (event.target.closest(".more-button")) return;
+      openModal(Number(card.dataset.videoId));
     });
 
     card.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        const selectedId = Number(card.dataset.videoId);
-        openModal(selectedId);
+        openModal(Number(card.dataset.videoId));
       }
     });
   });
@@ -308,19 +148,13 @@ function renderVideos() {
 
 function openModal(videoId) {
   if (!modal || !modalContent) return;
-
   const selectedVideo = videos.find((video) => video.id === videoId);
   if (!selectedVideo) return;
 
   modalContent.innerHTML = `
     <div class="modal-content">
       <div class="modal-video-wrap">
-        <iframe
-          src="https://www.youtube.com/embed/${selectedVideo.youtubeId}?autoplay=1&rel=0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-          title="${selectedVideo.title}"
-        ></iframe>
+        <iframe src="https://www.youtube.com/embed/${selectedVideo.youtubeId}?autoplay=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="${selectedVideo.title}"></iframe>
       </div>
       <div class="modal-info">
         <h3>${selectedVideo.title}</h3>
@@ -337,24 +171,17 @@ function openModal(videoId) {
           <button>🔖 Save</button>
           <button>⇩ Share</button>
         </div>
-        <p class="description">
-          Discover fresh football insight, elite player development, and standout moments from the current football scene.
-          This video brings together coaching ideas, match energy, and content designed to inspire players, scouts, and fans alike.
-        </p>
+        <p class="description">Discover fresh football insight, elite player development, and standout moments from the current football scene. This video brings together coaching ideas, match energy, and content designed to inspire players, scouts, and fans alike.</p>
         <div class="comment-list">
-          ${selectedVideo.comments
-            .map(
-              (comment) => `
-                <div class="comment-item">
-                  <div class="comment-avatar">${comment.user.slice(0, 1)}</div>
-                  <div>
-                    <div class="comment-user">${comment.user}</div>
-                    <div class="comment-body">${comment.text}</div>
-                  </div>
-                </div>
-              `
-            )
-            .join("")}
+          ${selectedVideo.comments.map((comment) => `
+            <div class="comment-item">
+              <div class="comment-avatar">${comment.user.slice(0, 1)}</div>
+              <div>
+                <div class="comment-user">${comment.user}</div>
+                <div class="comment-body">${comment.text}</div>
+              </div>
+            </div>
+          `).join("")}
         </div>
       </div>
     </div>
@@ -372,7 +199,6 @@ function closeModal() {
 
 function renderProfilePage() {
   if (!profilePage) return;
-
   const params = new URLSearchParams(window.location.search);
   const activeProfile = getProfileBySlug(params.get("profile") || "goalzone");
 
@@ -395,17 +221,12 @@ function renderProfilePage() {
         </div>
       </div>
     </section>
-
     <section class="profile-content-grid">
       <div class="profile-panel">
         <h2>About</h2>
         <p>${activeProfile.bio}</p>
-
-        <div class="tag-list">
-          ${activeProfile.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
-        </div>
+        <div class="tag-list">${activeProfile.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}</div>
       </div>
-
       <div class="profile-panel stats-panel">
         <h2>Stats</h2>
         <div class="stat-grid">
@@ -416,7 +237,6 @@ function renderProfilePage() {
         </div>
       </div>
     </section>
-
     <section class="featured-panel">
       <h2>Featured video</h2>
       <div class="featured-card">
@@ -429,76 +249,6 @@ function renderProfilePage() {
     </section>
   `;
 }
-
-if (chipRow) {
-  chipRow.addEventListener("click", (event) => {
-    const chip = event.target.closest(".chip");
-    if (!chip) return;
-
-    document.querySelectorAll(".chip").forEach((button) => button.classList.remove("active"));
-    chip.classList.add("active");
-    renderVideos();
-  });
-}
-
-if (searchInput) {
-  searchInput.addEventListener("input", renderVideos);
-}
-
-const searchBtn = document.getElementById("searchBtn");
-if (searchBtn) {
-  searchBtn.addEventListener("click", renderVideos);
-}
-
-if (themeToggle) {
-  themeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
-    themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
-  });
-}
-
-if (closeModalButton && modal) {
-  closeModalButton.addEventListener("click", closeModal);
-  modal.addEventListener("click", (event) => {
-    if (event.target.matches("[data-close='true']")) {
-      closeModal();
-    }
-  });
-}
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && modal && !modal.classList.contains("hidden")) {
-    closeModal();
-  }
-});
-
-renderChips();
-renderVideos();
-renderProfilePage();
-
-const apiBase = window.location.protocol === "file:" ? "http://localhost:3000/api" : "/api";
-const authModal = document.getElementById("authModal");
-const roleChoiceModal = document.getElementById("roleChoiceModal");
-const uploadModal = document.getElementById("uploadModal");
-const authForm = document.getElementById("authForm");
-const authStatus = document.getElementById("authStatus");
-const uploadStatus = document.getElementById("uploadStatus");
-let authMode = "login";
-
-function showRoleChoice() {
-  hideSurface(authModal);
-  showSurface(roleChoiceModal);
-}
-
-document.querySelectorAll("[data-role-choice]").forEach((button) => {
-  button.addEventListener("click", () => {
-    workspaceRole = button.dataset.roleChoice;
-    const user = JSON.parse(localStorage.getItem("scoutify_user") || "{}");
-    localStorage.setItem("scoutify_user", JSON.stringify({ ...user, role: workspaceRole }));
-    hideSurface(roleChoiceModal);
-    renderWorkspace();
-  });
-});
 
 function currentToken() {
   return localStorage.getItem("scoutify_token");
@@ -527,32 +277,110 @@ function hideSurface(surface) {
 
 function updateAuthMode() {
   const registration = authMode === "register";
-  document.getElementById("authTitle").textContent = registration ? "Create your account" : "Sign in to your account";
-  document.getElementById("authName").toggleAttribute("required", registration);
-  document.getElementById("authName").classList.toggle("hidden", !registration);
-  document.getElementById("nameField").classList.toggle("hidden", !registration);
-  document.getElementById("authModeButton").textContent = registration ? "Already have an account? Sign in" : "Need an account? Create one";
+  const authTitle = document.getElementById("authTitle");
+  const authName = document.getElementById("authName");
+  const nameField = document.getElementById("nameField");
+  const authModeButton = document.getElementById("authModeButton");
+  if (!authTitle || !authName || !nameField || !authModeButton) return;
+
+  authTitle.textContent = registration ? "Create your account" : "Sign in to your account";
+  authName.toggleAttribute("required", registration);
+  authName.classList.toggle("hidden", !registration);
+  nameField.classList.toggle("hidden", !registration);
+  authModeButton.textContent = registration ? "Already have an account? Sign in" : "Need an account? Create one";
 }
 
-let workspaceRole = JSON.parse(localStorage.getItem("scoutify_user") || "{}").role || null;
+function showRoleChoice() {
+  if (authModal) hideSurface(authModal);
+  if (roleChoiceModal) showSurface(roleChoiceModal);
+}
+
+function openUploadPanel() {
+  if (!uploadModal) return;
+  showSurface(uploadModal);
+}
 
 function renderWorkspace() {
   const isScout = workspaceRole === "scout";
-  document.getElementById("workspaceTitle").textContent = isScout ? "Scout view" : "Player view";
-  document.getElementById("workspaceDescription").textContent = isScout
+  const workspaceTitle = document.getElementById("workspaceTitle");
+  const workspaceDescription = document.getElementById("workspaceDescription");
+  const rolePanel = document.getElementById("rolePanel");
+  if (!workspaceTitle || !workspaceDescription || !rolePanel) return;
+
+  workspaceTitle.textContent = isScout ? "Scout view" : "Player view";
+  workspaceDescription.textContent = isScout
     ? "Watch player videos, review their stats, and start a conversation."
     : "Post your performances, keep your stats visible, and learn from other players.";
-  document.getElementById("rolePanel").innerHTML = isScout
+
+  rolePanel.innerHTML = isScout
     ? `<article class="role-card role-card-primary"><span class="role-icon">🔎</span><div><h3>Scout talent</h3><p>Filter the feed by position, training, and match footage. Open a video to evaluate the player and use Messages to contact them.</p></div><button class="primary-button role-message-button" type="button">Message a player</button></article><div class="role-metrics"><div><strong>128</strong><span>players watched</span></div><div><strong>24</strong><span>shortlists</span></div><div><strong>8</strong><span>open conversations</span></div></div>`
     : `<article class="role-card role-card-primary"><span class="role-icon">⚽</span><div><h3>Build your player profile</h3><p>Upload match clips and training videos so scouts can judge your development from real evidence.</p></div><button class="primary-button role-upload-button" type="button">Post a video</button></article><div class="role-metrics"><div><strong>12</strong><span>videos posted</span></div><div><strong>86%</strong><span>profile complete</span></div><div><strong>4.8</strong><span>performance rating</span></div></div>`;
-  document.querySelector(".role-message-button")?.addEventListener("click", () => { window.location.href = "pages/messages.html"; });
-  document.querySelector(".role-upload-button")?.addEventListener("click", () => document.getElementById("createButton")?.click());
+
+  document.querySelector(".role-message-button")?.addEventListener("click", () => {
+    window.location.href = "pages/messages.html";
+  });
+
+  document.querySelector(".role-upload-button")?.addEventListener("click", () => {
+    openUploadPanel();
+  });
 }
+
+if (chipRow) {
+  chipRow.addEventListener("click", (event) => {
+    const chip = event.target.closest(".chip");
+    if (!chip) return;
+    document.querySelectorAll(".chip").forEach((button) => button.classList.remove("active"));
+    chip.classList.add("active");
+    renderVideos();
+  });
+}
+
+if (searchInput) {
+  searchInput.addEventListener("input", renderVideos);
+}
+
+const searchBtn = document.getElementById("searchBtn");
+if (searchBtn) {
+  searchBtn.addEventListener("click", renderVideos);
+}
+
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+    themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+  });
+}
+
+if (closeModalButton && modal) {
+  closeModalButton.addEventListener("click", closeModal);
+  modal.addEventListener("click", (event) => {
+    if (event.target.matches("[data-close='true']")) closeModal();
+  });
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && modal && !modal.classList.contains("hidden")) closeModal();
+});
+
+renderChips();
+renderVideos();
+renderProfilePage();
+loadYouTubeUploads();
+
+document.querySelectorAll("[data-role-choice]").forEach((button) => {
+  button.addEventListener("click", () => {
+    workspaceRole = button.dataset.roleChoice;
+    const user = JSON.parse(localStorage.getItem("scoutify_user") || "{}");
+    localStorage.setItem("scoutify_user", JSON.stringify({ ...user, role: workspaceRole }));
+    if (roleChoiceModal) hideSurface(roleChoiceModal);
+    renderWorkspace();
+  });
+});
 
 document.getElementById("signInButton")?.addEventListener("click", () => {
   authMode = "login";
   updateAuthMode();
-  showSurface(authModal);
+  if (authModal) showSurface(authModal);
 });
 
 document.getElementById("authModeButton")?.addEventListener("click", () => {
@@ -566,46 +394,57 @@ document.getElementById("googleButton")?.addEventListener("click", () => {
 
 authForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
-  authStatus.textContent = "Working...";
+  if (authStatus) authStatus.textContent = "Working...";
+
   const body = Object.fromEntries(new FormData(authForm));
+  const endpoint = `/auth/${authMode === "register" ? "register" : "login"}`;
+
   try {
-    const result = await apiRequest(`/auth/${authMode === "register" ? "register" : "login"}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const result = await apiRequest(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    });
+
     localStorage.setItem("scoutify_token", result.token);
     localStorage.setItem("scoutify_user", JSON.stringify(result.user));
     workspaceRole = result.user.role || "player";
-    document.getElementById("signInButton").textContent = result.user.name;
-    authStatus.textContent = "You are signed in.";
-    setTimeout(showRoleChoice, 300);
+    const signInButton = document.getElementById("signInButton");
+    if (signInButton) signInButton.textContent = result.user.name;
+    if (authStatus) authStatus.textContent = "You are signed in.";
+    setTimeout(() => showRoleChoice(), 300);
   } catch (error) {
-    authStatus.textContent = error.message;
+    if (authStatus) authStatus.textContent = error.message;
   }
 });
 
 document.getElementById("createButton")?.addEventListener("click", () => {
-  if (!currentToken()) {
-    authMode = "login";
-    updateAuthMode();
-    showSurface(authModal);
-    authStatus.textContent = "Sign in before opening Creator Studio.";
-    return;
-  }
-  showSurface(uploadModal);
+  openUploadPanel();
 });
 
 document.getElementById("uploadForm")?.addEventListener("submit", async (event) => {
   event.preventDefault();
-  uploadStatus.textContent = "Uploading to YouTube...";
+  if (uploadStatus) uploadStatus.textContent = "Uploading to YouTube...";
+
   try {
     const result = await apiRequest("/videos/youtube", { method: "POST", body: new FormData(event.target) });
-    uploadStatus.textContent = `Uploaded successfully: ${result.video.title}`;
+    if (uploadStatus) uploadStatus.textContent = `Uploaded successfully: ${result.video.title}`;
     event.target.reset();
+    await loadYouTubeUploads();
+    setTimeout(() => {
+      const uploadSurface = document.getElementById("uploadModal");
+      if (uploadSurface) hideSurface(uploadSurface);
+    }, 600);
   } catch (error) {
-    uploadStatus.textContent = error.message;
+    if (uploadStatus) uploadStatus.textContent = error.message;
   }
 });
 
 document.querySelectorAll("[data-close]").forEach((button) => {
-  button.addEventListener("click", () => hideSurface(document.getElementById(button.dataset.close)));
+  button.addEventListener("click", () => {
+    const surface = document.getElementById(button.dataset.close);
+    if (surface) hideSurface(surface);
+  });
 });
 
 const callbackParams = new URLSearchParams(window.location.search);
@@ -617,11 +456,17 @@ if (callbackParams.get("token")) {
 if (callbackParams.get("authError")) {
   authMode = "login";
   updateAuthMode();
-  showSurface(authModal);
-  authStatus.textContent = callbackParams.get("authError");
+  if (authModal) showSurface(authModal);
+  if (authStatus) authStatus.textContent = callbackParams.get("authError");
 }
 if (localStorage.getItem("scoutify_user")) {
-  try { document.getElementById("signInButton").textContent = JSON.parse(localStorage.getItem("scoutify_user")).name; } catch { /* ignore malformed local state */ }
+  try {
+    const signInButton = document.getElementById("signInButton");
+    const savedUser = JSON.parse(localStorage.getItem("scoutify_user"));
+    if (signInButton && savedUser?.name) signInButton.textContent = savedUser.name;
+  } catch {
+    // Ignore malformed local state.
+  }
 }
 updateAuthMode();
 if (workspaceRole) renderWorkspace();

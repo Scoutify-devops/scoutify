@@ -24,7 +24,7 @@
       const params = new URLSearchParams(window.location.search);
       if (params.get("token")) localStorage.setItem("scoutify_token", params.get("token"));
       if (params.get("user")) localStorage.setItem("scoutify_user", params.get("user"));
-      if (!localStorage.getItem("scoutify_token")) window.location.replace("login.html");
+
       document.querySelectorAll("[data-role-choice]").forEach((button) => {
         button.addEventListener("click", () => {
           const user = JSON.parse(localStorage.getItem("scoutify_user") || "{}");
