@@ -1,4 +1,18 @@
 ﻿const apiBase = window.location.protocol === "file:" ? "http://localhost:3000/api" : "/api";
+const pagePath = window.location.pathname;
+const isEntryPage = pagePath.endsWith("/login.html") || pagePath.endsWith("/choose-role.html") || pagePath === "/";
+const savedUser = (() => {
+  try {
+    return JSON.parse(localStorage.getItem("scoutify_user") || "null");
+  } catch {
+    return null;
+  }
+})();
+
+if (!isEntryPage && !savedUser?.role) {
+  window.location.replace("pages/login.html");
+}
+
 const defaultVideos = [
   { id: 1, title: "Elite football skills session: dribbling and quick feet", channel: "GoalZone", channelSlug: "goalzone", views: "2.1M", age: "3 days ago", duration: "12:48", category: "Football", accent: "linear-gradient(135deg, #0ea5e9, #2563eb)", image: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=900&q=80", youtubeId: "ScMzIvxBSi4", comments: [{ user: "Ava", text: "This training routine is perfect for youth players chasing more agility." }, { user: "Dylan", text: "The quick-feet drills are great and easy to repeat in training sessions." }, { user: "Noah", text: "I need more of this type of football content on my feed." }] },
   { id: 2, title: "Top 10 tactical formations for rising teams", channel: "Tactical Edge", channelSlug: "tactical-edge", views: "890K", age: "5 days ago", duration: "18:22", category: "Training", accent: "linear-gradient(135deg, #f59e0b, #ef4444)", image: "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=900&q=80", youtubeId: "dQw4w9WgXcQ", comments: [{ user: "Mia", text: "Love the breakdown of the 4-3-3 and 3-2-5 transitions." }, { user: "Leo", text: "Very useful for players learning movement without the ball." }, { user: "Zoe", text: "That last formation idea could really help a smaller squad." }] },
