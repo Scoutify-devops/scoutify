@@ -63,6 +63,10 @@ function googleClient() {
   );
 }
 
+app.get("/", (_req, res) => {
+  res.redirect("/pages/login.html");
+});
+
 app.get("/api/health", (_req, res) => res.json({ ok: true, service: "scoutify-api" }));
 
 app.get("/api/videos", async (_req, res) => {
