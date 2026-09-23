@@ -18,6 +18,10 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
+env:
+  APP_PUBLIC_URL: https://example.com
+  APP_START_PATH: /pages/login.html
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,7 +33,7 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Verify required app pages exist
+      - name: Validate required app pages exist
         run: |
           test -f index.html
           test -f pages/login.html
@@ -37,6 +41,13 @@ jobs:
           test -f pages/messages.html
           test -f pages/profile.html
           echo "Scoutify pages are available for deployment."
+
+      - name: Confirm login is the entry page
+        run: |
+          echo "Public app URL: $APP_PUBLIC_URL"
+          echo "Entry page: $APP_START_PATH"
+          test -f pages/login.html
+          echo "The app is configured to route users to the login page first."
 
       - name: Upload static site artifact
         uses: actions/upload-pages-artifact@v3

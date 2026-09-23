@@ -84,6 +84,51 @@ app.get("/api/videos", async (_req, res) => {
   });
 });
 
+app.get("/api/user/youtube-stats", auth, async (req, res) => {
+  const db = await readDb();
+  const user = db.users.find((candidate) => candidate.id === req.user.sub);
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found." });
+  }
+
+  const uploadedVideos = db.videos.filter((video) => video.owner === user.id);
+  let youtubeStats = {
+    channelName: user.name,
+    views: 0,
+    subscribers: 0,
+    videos: uploadedVideos.length,
+    uploads: uploadedVideos.length
+  };
+
+  try {
+    const client = googleClient();
+    if (client && user.googleTokens) {
+      client.setCredentials(user.googleTokens);
+      const youtube = google.youtube({ version: "v3", auth: client });
+      const channelResponse = await youtube.channels.list({
+        part: ["snippet", "statistics"],
+        mine: true
+      });
+
+      const channel = channelResponse.data.items?.[0];
+      if (channel?.statistics) {
+        youtubeStats = {
+          channelName: channel.snippet?.title || user.name,
+          views: Number(channel.statistics.viewCount || 0),
+          subscribers: Number(channel.statistics.subscriberCount || 0),
+          videos: Number(channel.statistics.videoCount || 0),
+          uploads: uploadedVideos.length
+        };
+      }
+    }
+  } catch (error) {
+    console.warn("YouTube channel stats unavailable:", error.message);
+  }
+
+  res.json(youtubeStats);
+});
+
 app.post("/api/auth/register", async (req, res) => {
   const { name, email, password, role } = req.body;
   if (!name?.trim() || !email?.trim() || !password || password.length < 8) {

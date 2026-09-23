@@ -32,6 +32,12 @@
         <button id="modeButton" class="text-button" type="button">New to Scoutify? Create an account</button>
       </section>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+      window.SUPABASE_URL = "https://your-project-url.supabase.co";
+      window.SUPABASE_ANON_KEY = "your-supabase-anon-key";
+      window.supabase = window.supabase || window._supabase;
+    </script>
     <script src="../assets/js/auth.js"></script>
   </body>
 </html>

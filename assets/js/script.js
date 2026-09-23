@@ -9,6 +9,50 @@ const savedUser = (() => {
   }
 })();
 
+function getSavedUser() {
+  try {
+    return JSON.parse(localStorage.getItem("scoutify_user") || "null");
+  } catch {
+    return null;
+  }
+}
+
+function updateSignedInUI() {
+  const logoutButton = document.getElementById("logoutInButton") || document.getElementById("signInButton");
+  const user = getSavedUser();
+
+  if (!logoutButton) return;
+
+  if (user?.name) {
+    logoutButton.textContent = `${user.name} • logout`;
+    logoutButton.title = `Signed in as ${user.name}. Click to log out.`;
+    logoutButton.classList.add("is-logged-in");
+    return;
+  }
+
+  logoutButton.textContent = "Logout";
+  logoutButton.title = "Logout";
+  logoutButton.classList.remove("is-logged-in");
+}
+
+function logoutCurrentUser() {
+  localStorage.removeItem("scoutify_token");
+  localStorage.removeItem("scoutify_user");
+  localStorage.removeItem("scoutify_supabase_url");
+  localStorage.removeItem("scoutify_supabase_anon_key");
+  localStorage.removeItem("scoutify_player_stats");
+  if (window.__scoutifySupabaseClient) {
+    try {
+      window.__scoutifySupabaseClient.auth.signOut();
+    } catch {
+      // no-op
+    }
+  }
+  workspaceRole = null;
+  updateSignedInUI();
+  window.location.href = "pages/login.html";
+}
+
 if (!isEntryPage && !savedUser?.role) {
   window.location.replace("pages/login.html");
 }
@@ -24,6 +68,44 @@ const defaultVideos = [
   { id: 8, title: "Matchday warm-up routine for players", channel: "Pulse Studio", channelSlug: "pulse-studio", views: "410K", age: "8 hours ago", duration: "20:03", category: "Training", accent: "linear-gradient(135deg, #8b5cf6, #ec4899)", image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=900&q=80", youtubeId: "M7lc1UVf-VE", comments: [{ user: "Aiden", text: "Honestly this playlist is amazing for gym and field sessions." }, { user: "Chloe", text: "The energy level stays high all the way through." }, { user: "Seth", text: "This mix would be perfect for a team warm-up before a match." }] }
 ];
 let videos = [...defaultVideos];
+const defaultPlayerStats = { matchesPlayed: 0, goals: 0, assists: 0, rating: 4.8, pace: 88, position: "Forward" };
+
+function getPlayerStats() {
+  const user = getSavedUser();
+  if (!user?.id) return { ...defaultPlayerStats };
+
+  try {
+    const raw = JSON.parse(localStorage.getItem("scoutify_player_stats") || "{}");
+    return { ...defaultPlayerStats, ...(raw[user.id] || {}) };
+  } catch {
+    return { ...defaultPlayerStats };
+  }
+}
+
+function savePlayerStats(nextStats) {
+  const user = getSavedUser();
+  if (!user?.id) return;
+
+  try {
+    const cache = JSON.parse(localStorage.getItem("scoutify_player_stats") || "{}");
+    cache[user.id] = { ...defaultPlayerStats, ...nextStats };
+    localStorage.setItem("scoutify_player_stats", JSON.stringify(cache));
+  } catch {
+    console.warn("Unable to save player stats.");
+  }
+}
+
+function formatCompactNumber(value) {
+  const number = Number(value || 0);
+  if (!Number.isFinite(number)) return "0";
+  if (number >= 1000000) return `${(number / 1000000).toFixed(1)}M`;
+  if (number >= 1000) return `${(number / 1000).toFixed(1)}K`;
+  return `${number}`;
+}
+
+function formatStatValue(value) {
+  return Number(value || 0).toFixed(value % 1 !== 0 ? 1 : 0);
+}
 
 const profiles = [
   { slug: "goalzone", name: "GoalZone", role: "Football coach and talent creator", location: "Johannesburg, South Africa", bio: "GoalZone helps young players sharpen their technical skills, build confidence, and understand the game beyond the basics.", stats: { videos: 128, subscribers: "45K", followers: "12K", rating: "4.9" }, tags: ["Dribbling", "Training", "Youth Development", "Football IQ"], featured: "Elite football skills session: dribbling and quick feet", banner: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=80" },
@@ -314,21 +396,45 @@ function openUploadPanel() {
   showSurface(uploadModal);
 }
 
+async function loadYouTubeStats() {
+  try {
+    const result = await apiRequest("/user/youtube-stats");
+    window.scoutifyYoutubeStats = result;
+  } catch (error) {
+    console.warn("Could not load YouTube stats:", error.message);
+    window.scoutifyYoutubeStats = { channelName: getSavedUser()?.name || "Player", views: 0, subscribers: 0, videos: 0, uploads: 0 };
+  }
+}
+
 function renderWorkspace() {
   const isScout = workspaceRole === "scout";
   const workspaceTitle = document.getElementById("workspaceTitle");
   const workspaceDescription = document.getElementById("workspaceDescription");
   const rolePanel = document.getElementById("rolePanel");
+  const user = getSavedUser();
   if (!workspaceTitle || !workspaceDescription || !rolePanel) return;
 
-  workspaceTitle.textContent = isScout ? "Scout view" : "Player view";
+  const signedInName = user?.name || "Scoutify member";
+  const youtubeStatus = user?.email ? `Connected as ${user.email}` : "Connected with YouTube";
+  const youtubeStats = window.scoutifyYoutubeStats || { channelName: signedInName, views: 0, subscribers: 0, videos: 0, uploads: 0 };
+  const playerStats = getPlayerStats();
+
+  workspaceTitle.textContent = isScout ? `Scout view • ${signedInName}` : `Player view • ${signedInName}`;
   workspaceDescription.textContent = isScout
-    ? "Watch player videos, review their stats, and start a conversation."
-    : "Post your performances, keep your stats visible, and learn from other players.";
+    ? `${signedInName} is reviewing players, watching footage, and messaging talent.`
+    : `${signedInName} is uploading and sharing performance videos with the football community.`;
+
+  const statsHtml = isScout
+    ? `<div class="role-metrics"><div><strong>${formatCompactNumber(youtubeStats.views)}</strong><span>YouTube views</span></div><div><strong>${formatCompactNumber(youtubeStats.subscribers)}</strong><span>subs</span></div><div><strong>${formatStatValue(playerStats.rating)}</strong><span>rating</span></div></div>`
+    : `<div class="role-metrics"><div><strong>${formatCompactNumber(youtubeStats.views)}</strong><span>YouTube views</span></div><div><strong>${formatCompactNumber(youtubeStats.videos)}</strong><span>uploads</span></div><div><strong>${playerStats.matchesPlayed}</strong><span>matches</span></div><div><strong>${formatStatValue(playerStats.pace)}</strong><span>pace</span></div></div>`;
+
+  const playerStatsForm = isScout
+    ? ""
+    : `<form id="playerStatsForm" class="player-stats-form"><div class="inline-form-grid"><label>Matches played<input name="matchesPlayed" type="number" min="0" value="${playerStats.matchesPlayed}" /></label><label>Goals<input name="goals" type="number" min="0" value="${playerStats.goals}" /></label><label>Assists<input name="assists" type="number" min="0" value="${playerStats.assists}" /></label></div><div class="inline-form-grid"><label>Rating<input name="rating" type="number" min="0" max="10" step="0.1" value="${playerStats.rating}" /></label><label>Pace (km/h)<input name="pace" type="number" min="0" max="100" step="1" value="${playerStats.pace}" /></label><label>Position<input name="position" type="text" value="${playerStats.position}" /></label></div><button class="primary-button" type="submit">Save soccer stats</button></form>`;
 
   rolePanel.innerHTML = isScout
-    ? `<article class="role-card role-card-primary"><span class="role-icon">🔎</span><div><h3>Scout talent</h3><p>Filter the feed by position, training, and match footage. Open a video to evaluate the player and use Messages to contact them.</p></div><button class="primary-button role-message-button" type="button">Message a player</button></article><div class="role-metrics"><div><strong>128</strong><span>players watched</span></div><div><strong>24</strong><span>shortlists</span></div><div><strong>8</strong><span>open conversations</span></div></div>`
-    : `<article class="role-card role-card-primary"><span class="role-icon">⚽</span><div><h3>Build your player profile</h3><p>Upload match clips and training videos so scouts can judge your development from real evidence.</p></div><button class="primary-button role-upload-button" type="button">Post a video</button></article><div class="role-metrics"><div><strong>12</strong><span>videos posted</span></div><div><strong>86%</strong><span>profile complete</span></div><div><strong>4.8</strong><span>performance rating</span></div></div>`;
+    ? `<article class="role-card role-card-primary"><span class="role-icon">🔎</span><div><h3>Scout talent</h3><p>Filter the feed by position, training, and match footage. This workspace is linked to ${signedInName} and the real YouTube stats from the connected account.</p></div><button class="primary-button role-message-button" type="button">Message a player</button></article>${statsHtml}`
+    : `<article class="role-card role-card-primary"><span class="role-icon">⚽</span><div><h3>Build your player profile</h3><p>Upload match clips and training videos using the YouTube account connected to ${signedInName}. Scouts can view your real performance numbers and your player stats below.</p></div><button class="primary-button role-upload-button" type="button">Post a video</button></article>${statsHtml}${playerStatsForm}`;
 
   document.querySelector(".role-message-button")?.addEventListener("click", () => {
     window.location.href = "pages/messages.html";
@@ -336,6 +442,22 @@ function renderWorkspace() {
 
   document.querySelector(".role-upload-button")?.addEventListener("click", () => {
     openUploadPanel();
+  });
+
+  document.getElementById("playerStatsForm")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = new FormData(event.target);
+    const nextStats = {
+      matchesPlayed: Number(form.get("matchesPlayed") || 0),
+      goals: Number(form.get("goals") || 0),
+      assists: Number(form.get("assists") || 0),
+      rating: Number(form.get("rating") || 0),
+      pace: Number(form.get("pace") || 0),
+      position: String(form.get("position") || "Forward").trim() || "Forward"
+    };
+
+    savePlayerStats(nextStats);
+    renderWorkspace();
   });
 }
 
@@ -391,10 +513,9 @@ document.querySelectorAll("[data-role-choice]").forEach((button) => {
   });
 });
 
-document.getElementById("signInButton")?.addEventListener("click", () => {
-  authMode = "login";
-  updateAuthMode();
-  if (authModal) showSurface(authModal);
+const logoutTrigger = document.getElementById("logoutInButton") || document.getElementById("signInButton");
+logoutTrigger?.addEventListener("click", () => {
+  logoutCurrentUser();
 });
 
 document.getElementById("authModeButton")?.addEventListener("click", () => {
@@ -473,14 +594,14 @@ if (callbackParams.get("authError")) {
   if (authModal) showSurface(authModal);
   if (authStatus) authStatus.textContent = callbackParams.get("authError");
 }
-if (localStorage.getItem("scoutify_user")) {
-  try {
-    const signInButton = document.getElementById("signInButton");
-    const savedUser = JSON.parse(localStorage.getItem("scoutify_user"));
-    if (signInButton && savedUser?.name) signInButton.textContent = savedUser.name;
-  } catch {
-    // Ignore malformed local state.
+const storedUser = getSavedUser();
+if (storedUser?.name) {
+  const logoutButton = document.getElementById("logoutInButton") || document.getElementById("signInButton");
+  if (logoutButton) {
+    logoutButton.textContent = `${storedUser.name} • logout`;
+    logoutButton.title = `Signed in as ${storedUser.name}. Click to log out.`;
   }
 }
+updateSignedInUI();
 updateAuthMode();
 if (workspaceRole) renderWorkspace();
