@@ -1,6 +1,10 @@
 ﻿const apiBase = window.location.protocol === "file:" ? "http://localhost:3000/api" : "/api";
 const pagePath = window.location.pathname;
+const isLandingPage = pagePath === "/" || pagePath.endsWith("/index.html");
 const isEntryPage = pagePath.endsWith("/login.html") || pagePath.endsWith("/choose-role.html") || pagePath === "/";
+if (isLandingPage && !window.location.pathname.endsWith("/pages/login.html")) {
+  window.location.replace("./pages/login.html");
+}
 const savedUser = (() => {
   try {
     return JSON.parse(localStorage.getItem("scoutify_user") || "null");
