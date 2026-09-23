@@ -527,8 +527,30 @@ document.getElementById("authModeButton")?.addEventListener("click", () => {
   updateAuthMode();
 });
 
-document.getElementById("googleButton")?.addEventListener("click", () => {
-  window.location.href = `${apiBase}/auth/google`;
+document.getElementById("googleButton")?.addEventListener("click", async () => {
+  const client = window.__scoutifySupabaseClient || (window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY
+    ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY)
+    : null);
+
+  if (client) {
+    window.__scoutifySupabaseClient = client;
+    const { error } = await client.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/pages/choose-role.html`
+      }
+    });
+
+    if (error) {
+      if (authStatus) authStatus.textContent = error.message;
+    }
+
+    return;
+  }
+
+  if (authStatus) {
+    authStatus.textContent = "Google login is not configured yet. Add your Supabase project URL and anon key.";
+  }
 });
 
 authForm?.addEventListener("submit", async (event) => {

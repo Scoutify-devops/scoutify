@@ -73,6 +73,8 @@ googleButton?.addEventListener("click", async () => {
   const client = getSupabaseClient();
 
   if (client) {
+    if (authStatus) authStatus.textContent = "Redirecting to Google...";
+
     const { error } = await client.auth.signInWithOAuth({
       provider: "google",
       options: {
@@ -88,7 +90,9 @@ googleButton?.addEventListener("click", async () => {
     return;
   }
 
-  window.location.href = `${apiBase}/auth/google`;
+  if (authStatus) {
+    authStatus.textContent = "Supabase is not configured yet. Add your project URL and anon key to login.html.";
+  }
 });
 
 authForm?.addEventListener("submit", async (event) => {
