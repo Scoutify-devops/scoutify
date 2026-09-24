@@ -1,9 +1,11 @@
 ﻿const apiBase = window.location.protocol === "file:" ? "http://localhost:3000/api" : "/api";
 const pagePath = window.location.pathname;
+const appUrl = (page) => new URL(page.startsWith("/") ? page : `/pages/${page}`, window.location.origin).toString();
+const homeUrl = () => new URL("/index.html", window.location.origin).toString();
 const isLandingPage = pagePath === "/" || pagePath.endsWith("/index.html");
 const isEntryPage = pagePath.endsWith("/login.html") || pagePath.endsWith("/choose-role.html") || pagePath === "/";
 if (isLandingPage && !window.location.pathname.endsWith("/pages/login.html")) {
-  window.location.replace("./pages/login.html");
+  window.location.replace(appUrl("/pages/login.html"));
 }
 const savedUser = (() => {
   try {
@@ -54,11 +56,11 @@ function logoutCurrentUser() {
   }
   workspaceRole = null;
   updateSignedInUI();
-  window.location.href = "pages/login.html";
+  window.location.href = appUrl("/pages/login.html");
 }
 
 if (!isEntryPage && !savedUser?.role) {
-  window.location.replace("pages/login.html");
+  window.location.replace(appUrl("/pages/login.html"));
 }
 
 const defaultVideos = [
@@ -441,7 +443,7 @@ function renderWorkspace() {
     : `<article class="role-card role-card-primary"><span class="role-icon">⚽</span><div><h3>Build your player profile</h3><p>Upload match clips and training videos using the YouTube account connected to ${signedInName}. Scouts can view your real performance numbers and your player stats below.</p></div><button class="primary-button role-upload-button" type="button">Post a video</button></article>${statsHtml}${playerStatsForm}`;
 
   document.querySelector(".role-message-button")?.addEventListener("click", () => {
-    window.location.href = "pages/messages.html";
+    window.location.href = appUrl("/pages/messages.html");
   });
 
   document.querySelector(".role-upload-button")?.addEventListener("click", () => {
@@ -528,8 +530,11 @@ document.getElementById("authModeButton")?.addEventListener("click", () => {
 });
 
 document.getElementById("googleButton")?.addEventListener("click", async () => {
-  const client = window.__scoutifySupabaseClient || (window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY
-    ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY)
+  const supabaseUrl = (window.SUPABASE_URL || "").trim();
+  const supabaseAnonKey = (window.SUPABASE_ANON_KEY || "").trim();
+  const hasPlaceholder = /your[_-]?project[_-]?ref|YOUR_PROJECT_REF|your-project-url|your-supabase-anon-key/i.test(supabaseUrl) || /YOUR_SUPABASE_ANON_KEY|your-supabase-anon-key/i.test(supabaseAnonKey);
+  const client = window.__scoutifySupabaseClient || (window.supabase && supabaseUrl && supabaseAnonKey && !hasPlaceholder
+    ? window.supabase.createClient(supabaseUrl, supabaseAnonKey)
     : null);
 
   if (client) {
@@ -537,7 +542,7 @@ document.getElementById("googleButton")?.addEventListener("click", async () => {
     const { error } = await client.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/pages/choose-role.html`
+        redirectTo: appUrl("/pages/choose-role.html")
       }
     });
 
@@ -549,7 +554,7 @@ document.getElementById("googleButton")?.addEventListener("click", async () => {
   }
 
   if (authStatus) {
-    authStatus.textContent = "Google login is not configured yet. Add your Supabase project URL and anon key.";
+    authStatus.textContent = "Google login is not configured yet. Replace the placeholder Supabase URL and anon key in login.html with your real values.";
   }
 });
 

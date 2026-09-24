@@ -20,18 +20,86 @@
         <button class="role-choice-card" data-role-choice="player" type="button"><span class="role-icon">⚽</span><strong>I'm a player</strong><span>Post your videos and stats, then discover other players.</span></button>
       </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("token")) localStorage.setItem("scoutify_token", params.get("token"));
-      if (params.get("user")) localStorage.setItem("scoutify_user", params.get("user"));
+      const supabaseUrl = "https://your-project-url.supabase.co";
+      const supabaseAnonKey = "your-supabase-anon-key";
+      window.SUPABASE_URL = supabaseUrl;
+      window.SUPABASE_ANON_KEY = supabaseAnonKey;
+      window.supabase = window.supabase || window._supabase;
 
-      document.querySelectorAll("[data-role-choice]").forEach((button) => {
-        button.addEventListener("click", () => {
-          const user = JSON.parse(localStorage.getItem("scoutify_user") || "{}");
-          localStorage.setItem("scoutify_user", JSON.stringify({ ...user, role: button.dataset.roleChoice }));
-          window.location.href = "../index.html";
+      function saveUserSession(user, token) {
+        if (token) localStorage.setItem("scoutify_token", token);
+        if (user) {
+          const nextUser = {
+            id: user.id || user.sub || crypto?.randomUUID?.() || Date.now().toString(),
+            name: user.name || user.user_metadata?.name || user.email?.split("@")[0] || "Scoutify user",
+            email: user.email,
+            role: user.role || "player"
+          };
+          localStorage.setItem("scoutify_user", JSON.stringify(nextUser));
+        }
+      }
+
+      function resolvePageUrl(fileName) {
+        return new URL(fileName.startsWith("/") ? fileName : `/pages/${fileName}`, window.location.origin).toString();
+      }
+
+      function resolveHomeUrl() {
+        return new URL("/index.html", window.location.origin).toString();
+      }
+
+      async function hydrateGoogleSession() {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get("token");
+        const userParam = params.get("user");
+
+        if (token) {
+          localStorage.setItem("scoutify_token", token);
+        }
+
+        if (userParam) {
+          try {
+            const parsedUser = JSON.parse(decodeURIComponent(userParam));
+            saveUserSession(parsedUser, token);
+            return true;
+          } catch {
+            // Ignore malformed user payload and continue to Supabase session check.
+          }
+        }
+
+        if (window.supabase && supabaseUrl && supabaseAnonKey) {
+          try {
+            const client = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+            const { data: { session }, error } = await client.auth.getSession();
+            if (!error && session?.user) {
+              saveUserSession(session.user, session.access_token);
+              return true;
+            }
+          } catch {
+            // fall through to login redirect below
+          }
+        }
+
+        return false;
+      }
+
+      (async function () {
+        const isAuthenticated = await hydrateGoogleSession();
+
+        if (!isAuthenticated) {
+          window.location.href = resolvePageUrl("login.html");
+          return;
+        }
+
+        document.querySelectorAll("[data-role-choice]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const user = JSON.parse(localStorage.getItem("scoutify_user") || "{}");
+            localStorage.setItem("scoutify_user", JSON.stringify({ ...user, role: button.dataset.roleChoice }));
+            window.location.href = resolveHomeUrl();
+          });
         });
-      });
+      })();
     </script>
   </body>
 </html>

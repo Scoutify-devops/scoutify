@@ -7,11 +7,28 @@ const modeButton = document.getElementById("modeButton");
 const googleButton = document.getElementById("googleButton");
 let mode = "login";
 
+function resolvePageUrl(fileName) {
+  return new URL(fileName.startsWith("/") ? fileName : `/pages/${fileName}`, window.location.origin).toString();
+}
+
+function resolveHomeUrl() {
+  return new URL("/index.html", window.location.origin).toString();
+}
+
 function getSupabaseClient() {
-  const url = window.SUPABASE_URL || localStorage.getItem("scoutify_supabase_url");
-  const anonKey = window.SUPABASE_ANON_KEY || localStorage.getItem("scoutify_supabase_anon_key");
+  const url = (window.SUPABASE_URL || localStorage.getItem("scoutify_supabase_url") || "").trim();
+  const anonKey = (window.SUPABASE_ANON_KEY || localStorage.getItem("scoutify_supabase_anon_key") || "").trim();
 
   if (!url || !anonKey) return null;
+  if (/your[_-]?project[_-]?ref|YOUR_PROJECT_REF|your-project-url|your-supabase-anon-key/i.test(url) || /YOUR_SUPABASE_ANON_KEY|your-supabase-anon-key/i.test(anonKey)) {
+    return null;
+  }
+
+  try {
+    new URL(url);
+  } catch {
+    return null;
+  }
 
   if (!window.supabase) return null;
 
@@ -63,6 +80,27 @@ function updateMode() {
   modeButton.textContent = registration ? "Already have an account? Sign in" : "New to Scoutify? Create an account";
 }
 
+async function redirectIfAlreadySignedIn() {
+  const client = getSupabaseClient();
+  if (!client) return;
+
+  try {
+    const { data: { session }, error } = await client.auth.getSession();
+    if (error || !session?.user) return;
+
+    saveSession(session);
+    const savedUser = JSON.parse(localStorage.getItem("scoutify_user") || "{}");
+    if (savedUser?.role) {
+      window.location.href = resolveHomeUrl();
+      return;
+    }
+
+    window.location.href = resolvePageUrl("choose-role.html");
+  } catch {
+    // no-op; user is not yet authenticated
+  }
+}
+
 modeButton?.addEventListener("click", () => {
   mode = mode === "login" ? "register" : "login";
   updateMode();
@@ -78,7 +116,11 @@ googleButton?.addEventListener("click", async () => {
     const { error } = await client.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/pages/choose-role.html`
+        redirectTo: resolvePageUrl("choose-role.html"),
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent"
+        }
       }
     });
 
@@ -91,7 +133,7 @@ googleButton?.addEventListener("click", async () => {
   }
 
   if (authStatus) {
-    authStatus.textContent = "Supabase is not configured yet. Add your project URL and anon key to login.html.";
+    authStatus.textContent = "Supabase is not configured yet. Replace the placeholder project URL and anon key in login.html with your real values.";
   }
 });
 
@@ -123,7 +165,7 @@ authForm?.addEventListener("submit", async (event) => {
       }
 
       saveSession(result.data?.session || result.data || {});
-      window.location.href = "choose-role.html";
+      window.location.href = resolvePageUrl("choose-role.html");
       return;
     }
 
@@ -140,10 +182,11 @@ authForm?.addEventListener("submit", async (event) => {
 
     localStorage.setItem("scoutify_token", result.token);
     localStorage.setItem("scoutify_user", JSON.stringify(result.user));
-    window.location.href = "choose-role.html";
+    window.location.href = resolvePageUrl("choose-role.html");
   } catch (error) {
     if (authStatus) authStatus.textContent = error.message || "Authentication failed.";
   }
 });
 
 updateMode();
+redirectIfAlreadySignedIn();
